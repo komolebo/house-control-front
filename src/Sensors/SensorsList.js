@@ -17,6 +17,28 @@ const displayProperties = [
     'Actions'
 ]
 
+
+var sensorSocket = new WebSocket(
+    'ws://192.168.1.12:8000/ws/sensor'
+)
+
+sensorSocket.onmessage = function (e) {
+    var data = JSON.parse(e.data);
+    var message = data['message'];
+
+    console.log("onmessage");
+    console.log(message);
+}
+
+sensorSocket.onopen = () => {
+    console.log("WEBSOCKET WORKED, BITCHA!");
+}
+
+
+sensorSocket.onclose = function (e) {
+    console.error("damn it");
+}
+
 class SensorsList extends Component {
     state = { sensors: [] }
 
@@ -42,6 +64,10 @@ class SensorsList extends Component {
     }
 
     onRemoveItem(sensorId) {
+        sensorSocket.send(JSON.stringify({
+            'message': "message from front"
+        }));
+        
         console.log("removing " + sensorId);
         axios
             .delete('api/sensors/' + sensorId, {data: sensorId})
