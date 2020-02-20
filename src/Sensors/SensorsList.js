@@ -4,6 +4,7 @@ import SensorItem  from './SensorItem';
 import { Sensor } from './SensorItem';
 import { popupAddNewSensor, SensorPopup } from "./SensorPopup";
 import axios from 'axios';
+import socketHandler from '../socketio';
 
 axios.defaults.baseURL = 'http://192.168.1.12:8000/';
 
@@ -17,37 +18,21 @@ const displayProperties = [
     'Actions'
 ]
 
-
-var sensorSocket = new WebSocket(
-    'ws://192.168.1.12:8000/ws/sensor'
-)
-
-sensorSocket.onmessage = function (e) {
-    var data = JSON.parse(e.data);
-    var message = data['message'];
-
-    console.log("onmessage");
-    console.log(message);
-}
-
-sensorSocket.onopen = () => {
-    console.log("WEBSOCKET WORKED, BITCHA!");
-}
-
-
-sensorSocket.onclose = function (e) {
-    console.error("damn it");
-}
-
 class SensorsList extends Component {
     state = { sensors: [] }
 
-    constructor(props) {
-        super();
+    syncBackendData() {
+        console.log("syncing");
         axios
             .get('api/sensors/')
             .then(response => this.setState({sensors: response.data}))
             .catch(err => console.log(err));
+    }
+
+    componentDidMount() {
+        this.syncBackendData(); 
+        
+        socketHandler.subscribe('sensor_list_changed', () => { this.syncBackendData(); })
     }
 
     addSensorItem(sn, name="Generic", status=true, description="Generic device, please append new data here") {
@@ -64,19 +49,19 @@ class SensorsList extends Component {
     }
 
     onRemoveItem(sensorId) {
-        sensorSocket.send(JSON.stringify({
-            'message': "message from front"
+        this.sensorSocket.send(JSON.stringify({
+            'message': "front removed message " + sensorId
         }));
         
         console.log("removing " + sensorId);
-        axios
-            .delete('api/sensors/' + sensorId, {data: sensorId})
-            .then(res => {
-                this.setState({sensors: this.state.sensors.filter(item => (item.id !== sensorId))});
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        // axios
+        //     .delete('api/sensors/' + sensorId, {data: sensorId})
+        //     .then(res => {
+        //         this.setState({sensors: this.state.sensors.filter(item => (item.id !== sensorId))});
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
     }
 
     render() {
