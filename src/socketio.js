@@ -1,39 +1,44 @@
-class SocketHandler {
+export const SENSOR_LIST_CHANGED = "sensor_list_changed";
 
+
+class SocketHandler {
     constructor() {
-        this.event_data = {};
+        this.subscriptions = {};
+
         this.socket = new WebSocket('ws://192.168.1.12:8000/ws/sensor');
+
         this.socket.onmessage = function(e) {
             var data = JSON.parse(e.data);
-            var message = data['message'];
+            var msg = data['message'];
+            var payload = data['payload'];
+
+            if (msg in this.subscriptions) {
+                this.subscriptions[msg].forEach(callback => {
+                    callback(payload);
+                });
+            }
             
-            this.event(message);
-            // console.log(data['message']);
+            console.log(msg);
         }.bind(this);
+
         this.socket.onclose = function(e) {
-            console.err("socket is closed: " + e);
-        }.bind(this);
+            console.error("socket is closed: " + e);
+        };
     }
 
-    subscribe(event, callback) {
-        if (event in this.event_data) {
-            this.event_data[event].push(callback);
+    subscribe(msg, callback) {
+        if (msg in this.subscriptions) {
+            this.subscriptions[msg].push(callback);
         }
         else {
-            this.event_data[event] = [callback];
-        }
-    }
-
-    event(event) {
-        if (event in this.event_data) {
-            this.event_data[event].forEach(callback => {
-                callback();
-            });
+            this.subscriptions[msg] = [callback];
         }
     }
 }
 
 var socketHandler = new SocketHandler();
 
-export default socketHandler;
+export {
+    socketHandler
+}
 

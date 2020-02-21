@@ -4,7 +4,8 @@ import SensorItem  from './SensorItem';
 import { Sensor } from './SensorItem';
 import { popupAddNewSensor, SensorPopup } from "./SensorPopup";
 import axios from 'axios';
-import socketHandler from '../socketio';
+import { socketHandler } from '../socketio';
+import * as messages from '../socketio';
 
 axios.defaults.baseURL = 'http://192.168.1.12:8000/';
 
@@ -32,7 +33,9 @@ class SensorsList extends Component {
     componentDidMount() {
         this.syncBackendData(); 
         
-        socketHandler.subscribe('sensor_list_changed', () => { this.syncBackendData(); })
+        socketHandler.subscribe(messages.SENSOR_LIST_CHANGED, (dict_payload) => { 
+            this.syncBackendData(); 
+        })
     }
 
     addSensorItem(sn, name="Generic", status=true, description="Generic device, please append new data here") {
@@ -49,7 +52,7 @@ class SensorsList extends Component {
     }
 
     onRemoveItem(sensorId) {
-        this.sensorSocket.send(JSON.stringify({
+        socketHandler.send(JSON.stringify({
             'message': "front removed message " + sensorId
         }));
         
