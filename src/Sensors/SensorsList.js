@@ -35,12 +35,30 @@ class SensorsList extends Component {
         
         socketHandler.subscribe(messages.SENSOR_LIST_CHANGED, (dict_payload) => { 
             this.syncBackendData(); 
-        })
+        });
+
+        socketHandler.subscribe(messages.DEVICE_LOST_COMM, (dict_payload) => {
+            this.updateSensorStatus(dict_payload["id"], false);
+        });
+
+        socketHandler.subscribe(messages.CLEAR_DEVICE_LOST_COMM, (dict_payload) => {
+            this.updateSensorStatus(dict_payload["id"], true);
+        });
     }
 
     addSensorItem(sn, name="Generic", status=true, description="Generic device, please append new data here") {
         this.state.sensors.push(new Sensor(sn, name, status, description));
         this.setState( { sensors: this.state.sensors } );
+    }
+
+    updateSensorStatus(sensorId, newStatus) {
+        this.state.sensors = this.state.sensors.map(sensor => {
+            if (sensor.id === sensorId) {
+                sensor.status = newStatus;
+            }
+            return sensor;
+        });
+        this.setState( {sensors: this.state.sensors } );
     }
 
     /* Debug part only, will be replaced by socket.io functionality */
@@ -52,19 +70,15 @@ class SensorsList extends Component {
     }
 
     onRemoveItem(sensorId) {
-        socketHandler.send(JSON.stringify({
-            'message': "front removed message " + sensorId
-        }));
-        
         console.log("removing " + sensorId);
-        // axios
-        //     .delete('api/sensors/' + sensorId, {data: sensorId})
-        //     .then(res => {
-        //         this.setState({sensors: this.state.sensors.filter(item => (item.id !== sensorId))});
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        axios
+            .delete('api/sensors/' + sensorId, {data: sensorId})
+            .then(res => {
+                this.setState({sensors: this.state.sensors.filter(item => (item.id !== sensorId))});
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     render() {

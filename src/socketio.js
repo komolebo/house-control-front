@@ -1,10 +1,18 @@
 export const SENSOR_LIST_CHANGED = "sensor_list_changed";
+export const DEVICE_LOST_COMM = "device_lost_comm";
+export const CLEAR_DEVICE_LOST_COMM = "clear_device_lost_comm";
+export const SENSOR_REMOVE_REQUEST = "sensor_remove";
+export const SENSOR_ADD = "sensor_add";
 
 
 class SocketHandler {
+
     constructor() {
         this.subscriptions = {};
+        this.connect();
+    }
 
+    connect() {
         this.socket = new WebSocket('ws://192.168.1.12:8000/ws/sensor');
 
         this.socket.onmessage = function(e) {
@@ -22,8 +30,11 @@ class SocketHandler {
         }.bind(this);
 
         this.socket.onclose = function(e) {
-            console.error("socket is closed: " + e);
-        };
+            setTimeout(() => { 
+                console.log("retry connect");
+                this.connect();
+            }, 500);
+        }.bind(this);
     }
 
     subscribe(msg, callback) {
@@ -34,6 +45,10 @@ class SocketHandler {
             this.subscriptions[msg] = [callback];
         }
     }
+
+    // notifyBackend(msg, data) {
+    //     this.socket.send(JSON.stringify({ 'message': msg, 'payload': data });
+    // }
 }
 
 var socketHandler = new SocketHandler();
