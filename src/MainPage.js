@@ -9,7 +9,7 @@ class MainPage extends Component {
     render() {
         return (
             <div id="main-page">
-                <div id="nav-menu">
+                <div id="nav-bar">
                     <div id="menu-logo-section">
                         <div id="menu-logo">
                         </div>
@@ -27,7 +27,7 @@ class MainPage extends Component {
 
                 <div id="content-page">
                     <p><strong>1. Main Content</strong></p>
-                </div>
+                </div> 
             </div>
 
         )

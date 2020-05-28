@@ -2,22 +2,28 @@
     box-sizing: border-box;
 }
 
-#nav-menu {
+#main-page {
+    overflow:auto;
+}
+
+#nav-bar {
+    position: fixed;
     float: left;
     width: 320px;
+    height: 100%;
 
     background: #14131B;
 }
 
 #content-page {
-    float: left;
+    float: right;
     width: calc(100% - 320px);;
 
-    background: #191A1E;
+    background: rgb(13, 33, 114);
 }
 
 #menu-logo-section {
-    padding: 64px;
+    padding: 70px;
     border-bottom: 1px solid rgb(07,09,16);
     margin-bottom: 64px;
 }
