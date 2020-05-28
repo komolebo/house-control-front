@@ -1,13 +1,12 @@
 import React from 'react';
-// import './App.css';
+import './App.css';
 import SensorsList from './Sensors/SensorsList';
+import MainPage from './MainPage'
 
 
 function App() {
   return (
-  <div>
-    <SensorsList />
-  </div>
+    <MainPage/>
   )
 }
 

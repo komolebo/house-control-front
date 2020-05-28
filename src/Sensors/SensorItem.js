@@ -10,6 +10,10 @@ export class Sensor {
         this.description = description;
         this.sn = sn;
     }
+
+    changeStatus(status) {
+        this.status = status;
+    }
 }
 
 export default function SensorItem( {data, onRemove} ) {

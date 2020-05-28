@@ -1,0 +1,51 @@
+* {
+    box-sizing: border-box;
+}
+
+#nav-menu {
+    float: left;
+    width: 320px;
+
+    background: #14131B;
+}
+
+#content-page {
+    float: left;
+    width: calc(100% - 320px);;
+
+    background: #191A1E;
+}
+
+#menu-logo-section {
+    padding: 64px;
+    border-bottom: 1px solid rgb(07,09,16);
+    margin-bottom: 64px;
+}
+
+#menu-logo-section-text {
+    position: absolute;
+    width: 159px;
+    height: 56px;
+    left: 128px;
+    top: 38px;
+    
+    font-family: 'Roboto-Regular';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    text-transform: uppercase;
+    
+    color: #FFFFFF;
+}
+
+#menu-logo {
+    position: absolute;
+    width: 72px;
+    height: 65.28px;
+    left: 30px;
+    top: 31px;
+
+    background: url(Resources/smart_home_system.svg);
+}
+
