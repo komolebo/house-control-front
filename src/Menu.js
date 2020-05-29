@@ -4,11 +4,12 @@ import './Menu.css';
 const menu_data = [
     {id: 0, png: "./Resources/main_menu_home",       text: "Home" },
     {id: 1, png: "./Resources/main_menu_rooms",      text: "Rooms" },
-    {id: 2, png: "./Resources/main_menu_devices",   text: "Devices" },
+    {id: 2, png: "./Resources/main_menu_devices",    text: "Devices" },
     {id: 3, png: "./Resources/main_menu_statistics", text: "Statistics" },
     {id: 4, png: "./Resources/main_menu_routines",   text: "Routines" },
     {id: 5, png: "./Resources/main_menu_settings",   text: "Settings" },
 ]
+
 class NavMenu extends Component {
 
     constructor (props) {
@@ -39,7 +40,7 @@ class NavMenu extends Component {
                 {menu_data.map(menu_item => (
                     <tr class="menu-row" onClick={() => this.handleClick(menu_item.id)} id={menu_item.id}>
                         <td class="menu-column">
-                            <img src={require(menu_item.png + (menu_item.id == this.state.selectedItem ? '_active':'_inactive') + '.png')}>
+                            <img src={process.env.PUBLIC_URL + menu_item.png + (menu_item.id == this.state.selectedItem ? '_active':'_inactive') + '.png'}>
                             </img>
                         </td>
                         

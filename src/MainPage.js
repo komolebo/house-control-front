@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import './MainPage.css';
 import NavMenu from './Menu'
+import InfoBar from './InfoBar'
+import DeviceTableHeader from './Devices/DeviceTableHeader'
+import DeviceTable from './Devices/DeviceTable'
 
 class MainPage extends Component {
     componentDidMount() {
@@ -12,6 +15,7 @@ class MainPage extends Component {
                 <div id="nav-bar">
                     <div id="menu-logo-section">
                         <div id="menu-logo">
+                            <img src={process.env.PUBLIC_URL + 'Resources/smart_home_system.svg'}></img>
                         </div>
 
                         <div id="menu-logo-section-text">
@@ -26,7 +30,9 @@ class MainPage extends Component {
                 </div>
 
                 <div id="content-page">
-                    <p><strong>1. Main Content</strong></p>
+                    <InfoBar/>
+                    <DeviceTableHeader/>
+                    <DeviceTable/>
                 </div> 
             </div>
 

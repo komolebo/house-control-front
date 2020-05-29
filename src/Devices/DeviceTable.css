@@ -1,0 +1,39 @@
+#device-table {
+    background-color: #14131B;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+.dev-table-header {
+    font-family: Montserrat-Regular;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 30px;
+    /* identical to box height */
+
+
+    color: #FFFFFF;
+}
+
+.dev-table-row {
+    /* background-color: lemonchiffon; */
+}
+
+.dev-table-item {
+    /* background-color: lightskyblue; */
+    padding: 30px;
+}
+
+.dev-tab-item-text {
+    font-family: Montserrat-Regular;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #5E5E5E;
+}
