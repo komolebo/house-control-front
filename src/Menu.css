@@ -1,28 +1,32 @@
-.main-menu {
-    width: 200px;
-  }
-  
-
 #main-menu {
     /* background-color: lightcoral; */
-    margin: 10px;
-    padding: 10px;
 }
 
 .menu-row {
-    padding: 20px;
-    /* background-color: gray; */
+    padding: 30px;
+    margin-bottom: 40px;
 }
 
-.menu-column {
-    padding-bottom: 50px;
-    padding-right: 30px;
+.menu-item {
+    padding: 20px;
+    /* padding-bottom: 40px;
+    padding-right: 30px; */
     /* background-color: indigo; */
+}
+
+.menu-border {
+    border-left: 3px solid transparent;
+    padding-left: 20px;
+}
+
+.menu-border-selected {
+    border-left: 3px solid darkblue;
+    padding-left: 20px;
 }
 
 .menu-text {
     width: 63px;
-    height: 24px;
+    /* height: 24px; */
     left: 96px;
     top: 212px;
 
@@ -32,7 +36,7 @@
     font-size: 18px;
     line-height: 24px;
 
-    color: #FFFFFF;
+    color: #FFFFFF;    
 }
 
 #img-style {

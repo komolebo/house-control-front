@@ -1,5 +1,4 @@
 * {
-    box-sizing: border-box;
 }
 
 #main-page {
@@ -8,24 +7,27 @@
 
 #nav-bar {
     position: fixed;
-    float: left;
+    /* top: 0; */
+
+    /* float: left; */
     width: 320px;
     height: 100%;
 
     background: #14131B;
+    /* background: rgb(15, 131, 24); */
 }
 
 #content-page {
     float: right;
     width: calc(100% - 320px);;
 
-    background: #191A1E;
+    background: rgb(25, 30, 30);
 }
 
 #menu-logo-section {
-    padding: 70px;
+    /* background-color: lightseagreen; */
+    height: 150px;
     border-bottom: 1px solid rgb(07,09,16);
-    margin-bottom: 64px;
 }
 
 #menu-logo-section-text {
@@ -51,7 +53,9 @@
     height: 65.28px;
     left: 30px;
     top: 31px;
-
-    /* background: url(public/Resources/smart_home_system.svg); */
 }
 
+#devices-table-section {
+    /* background-color: chocolate; */
+    margin: 32px;
+}

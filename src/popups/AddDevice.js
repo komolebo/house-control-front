@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './Menu.css';
+import './AddDevice.css';
 
-const menu_data = [
+const add_dev_data = [
     {id: 0, png: "./Resources/main_menu_home",       text: "Home" },
     {id: 1, png: "./Resources/main_menu_rooms",      text: "Rooms" },
     {id: 2, png: "./Resources/main_menu_devices",    text: "Devices" },
@@ -12,16 +12,16 @@ const menu_data = [
     // {id: 7, png: "./Resources/main_menu_settings",   text: "Settings" },
 ]
 
-class NavMenu extends Component {
+class AddDevicePopup extends Component {
 
     constructor (props) {
         super(props);
 
-        this.state = {
-            selectedItem : 2
-        };
+        // this.state = {
+        //     selectedItem : 2
+        // };
 
-        this.handleClick = this.handleClick.bind(this);
+        // this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -38,8 +38,15 @@ class NavMenu extends Component {
     render() {
         return (
             <div>
-            <table id="main-menu">
-                {menu_data.map(menu_item => (
+                <div className='popup'>
+                    <div className='popup_inner'>
+                        <h1>{this.props.text}</h1>
+                        <button onClick={this.props.closePopup}>close me</button>
+                    </div>
+                </div>
+
+            {/* <table id="main-menu">
+                {add_dev_data.map(menu_item => (
                     <tr class="menu-row" onClick={() => this.handleClick(menu_item.id)} id={menu_item.id}>
                         <td className={"menu-item" + (menu_item.id == this.state.selectedItem ? " menu-border-selected" : " menu-border")}>
                             <img src={process.env.PUBLIC_URL + menu_item.png + (menu_item.id == this.state.selectedItem ? '_active':'_inactive') + '.png'}>
@@ -51,10 +58,10 @@ class NavMenu extends Component {
                         </td>
                     </tr>
                 ))}
-            </table>
+            </table> */}
             </div>
         )
     }
 }
 
-export default NavMenu;
+export default AddDevicePopup;

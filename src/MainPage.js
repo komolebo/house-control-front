@@ -31,8 +31,10 @@ class MainPage extends Component {
 
                 <div id="content-page">
                     <InfoBar/>
-                    <DeviceTableHeader/>
-                    <DeviceTable/>
+                    <div id="devices-table-section">
+                        <DeviceTableHeader/>
+                        <DeviceTable/>
+                    </div>
                 </div> 
             </div>
 
