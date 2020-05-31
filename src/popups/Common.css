@@ -1,0 +1,38 @@
+.dev-name-under-ico {
+    font-family: "Montserrat-Regular";
+    font-style: normal;
+    text-align: center;
+    color: #5D5D5D;
+}
+
+.center-pos{
+    /* background-color: cadetblue; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.popup-buttons-container{
+    float: right;
+    /* height: 20%; */
+    /* background-color: cornflowerblue; */
+    padding: 10px;
+}
+
+.popup-close-window {
+    float: right;
+    padding: 10px;
+}
+
+.selected-col {
+    color: #0028FE;
+}
+
+.border-active {
+    border: solid 1px #0028FE;
+}
+
+.border-inactive {
+    border: solid 1px #5D5D5D;
+}

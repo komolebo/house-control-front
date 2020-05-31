@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import SensorsList from './Sensors/SensorsList';
 import MainPage from './MainPage'
 
 

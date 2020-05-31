@@ -12,10 +12,13 @@ const DISAPPEAR_GAP = 50;
 class SettingsPopup extends Component {
     constructor (props) {
         super(props);
-        this.closePopup = props.onclose;
-        this.pos_src = props.positionSource;
-        this.update_cb = props.onupdate;
-        this.remove_cb = props.onremove;
+
+        console.log("settings props", props);
+
+        this.closePopup = props.close_cb;
+        this.pos_src = props.data.positionSource;
+        this.update_cb = props.data.update_cb;
+        this.remove_cb = props.data.remove_cb;
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.updateView = this.updateView.bind(this);
@@ -23,8 +26,17 @@ class SettingsPopup extends Component {
         this.getYPos = this.getYPos.bind(this);
 
         this.state = {
-            update: ((props.onupdate != null) ? true : false),
+            update: this.update_cb == null ? false : true,
             remove: true
+        }
+
+        this.onremove = () => {
+            this.closePopup();
+            this.remove_cb();
+        }
+        this.onupdate = () => {
+            this.closePopup();
+            this.update_cb();
         }
     }
 
@@ -84,14 +96,14 @@ class SettingsPopup extends Component {
                     <div className='popup-settings-inner' style={this.state.styles}  onMouseLeave={this.closePopup}>
                         {this.state.update ? (
                         <div id="popup-setting-item">
-                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_update.png'} onClick={this.update_cb}/>
+                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_update.png'} onClick={this.onupdate}/>
                             <div className="popup-setting-update popup-setting-text">Update</div>
                         </div>
                         ) : null 
                         }
 
                         <div id="popup-setting-item">
-                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_remove.png'} onClick={this.remove_cb}/>
+                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_remove.png'} onClick={this.onremove}/>
                             <div className="popup-setting-remove popup-setting-text">Delete</div>
                         </div>
                     </div>

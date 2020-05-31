@@ -9,7 +9,7 @@
     margin: auto;
     background-color: rgba(25, 26, 30, 0.75); 
   }
-  .popup-remove-inner {
+.popup-remove-inner {
     position: absolute;
     width: 400px;
     left: 38%;
@@ -20,7 +20,13 @@
     background: #14131B;
   }
   
-  .popup-text-label {
+.pop-remove-top {
+    height: 80%;
+    /* background-color: springgreen; */
+    padding-bottom: 50px;
+}
+
+.popup-remove-text-label {
     font-family: Montserrat-Regular;
     font-style: normal;
     font-weight: 500;
@@ -33,25 +39,17 @@
   
     /* height: 20%; */
     color: #FFFFFF;
-  }
+}
 
-  .remove-ico {
+.remove-ico {
     /* margin: 20px; */
      /* background-color: chocolate; */
-     padding: 40px;
+     /* padding-top: 40px; */
      height: 150px;
      /* height: 50%; */
-  }
+}
 
-  .center-pos{
-    /* background-color: cadetblue; */
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .remove-button{
+.remove-button{
     width: 128px;
     height: 46px;
     background: #0028FE; 

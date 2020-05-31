@@ -1,4 +1,4 @@
-.popup {
+.popup-add {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -7,27 +7,76 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(25, 26, 30, 0.75);  
+  background-color: rgba(25, 26, 30, 0.75); 
 }
-.popup-inner {
+.popup-add-inner {
   position: absolute;
-  left: 25%;
-  right: 25%;
-  top: 25%;
-  bottom: 25%;
-  margin: auto;
+  width: 550px;
+  left: 38%;
+  /* right: 38%; */
+  top: 31%;
+  /* bottom: 22%; */
+  margin:auto; 
+  padding: 10px;
   background: #14131B;
 }
 
-.popup-text-label {
+#popup-add-dev-header {
+  height: 60px;
+  /* background-color: rosybrown; */
+}
+
+.popup-add-text-label {
   font-family: Montserrat-Regular;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 20   px;
+  /* line-height: 20px; */
+  padding: 20px;
   /* identical to box height */
+  float: left;
 
+  /* background-color: turquoise; */
 
+  /* height: 20%; */
   color: #FFFFFF;
 }
 
+#scan-dev-info-section {
+  width: 100%;
+  /* background-color: slategrey; */
+}
+
+.scan-dev-card {
+  width: 200px;
+  height: 180px;
+  padding: 10px;
+  float: left;
+  margin: 20px;
+}
+
+#scan-checkbox-container{
+  float: right;
+}
+
+.scanned-dev-card-ico {
+  padding: 50px;
+  padding-bottom: 10px;
+}
+
+.add-button{
+  width: 128px;
+  height: 46px;
+  background: #0028FE; 
+  font-family: Montserrat-Regular;
+  font-style: normal;
+  color: white;
+  border: none;
+}
+
+.add-button-cancel{
+  background: none; 
+}
+.add-button-add{
+
+}

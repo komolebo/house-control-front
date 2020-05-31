@@ -101,10 +101,9 @@ class DeviceTable extends Component {
     constructor (props) {
         super(props);
 
+        this.onpopup = props.onpopup;
+
         this.state = {
-            settingsPopup : false,
-            updatePopup : false,
-            removePopup : false,
             updateInProgress : false,
             dev_info: devices,
             selectedId : -1
@@ -113,35 +112,58 @@ class DeviceTable extends Component {
         this.tablePos = null;
         this.refArr = [];
         this.setRef = (element, id) => {
-            // if (element != null) {
-                // console.log("element", id, element.getBoundingClientRect());
-                this.refArr[id] = element;
-            // }
+            this.refArr[id] = element;
         };
 
-        this.showSettingsPopup = (i) => {
+        this.showSettingsPopup = (id) => {
+            this.onpopup(SettingsPopup, {
+                positionSource : this.refArr[id],
+                update_cb : this.state.dev_info.find(el => el.id == id).update ? this.updateReqCb : null,
+                remove_cb : this.removeReqCb
+            });
+
             this.setState({
-                settingsPopup : true,
-                devId : i,
-                positionSource : this.refArr[i]
+                devId : id,
+                positionSource : this.refArr[id]
+            })
+        };
+
+        this.showUpdatePopup = (id) => {
+            console.log("showing update popup");
+            this.onpopup(UpdateDevicePopup, {
+                update_cb : this.updateConfirmCb,
+            });
+
+            this.setState({
+                devId : id,
+            })
+        };
+
+        this.showRemovePopup = (id) => {
+            console.log("showing remove popup");
+            this.onpopup(RemoveDevicePopup, {
+                remove_cb : this.removeConfirmCb,
+                png_ref : this.state.dev_info.find(el => el.id == this.state.devId).png,
+                dev_name : this.state.dev_info.find(el => el.id == this.state.devId).name
+            });
+
+            this.setState({
+                devId : id,
             })
         };
 
         this.closeSettingsPopup = (i) => {
             this.setState({
-                settingsPopup: false,
                 devId : -1
             })
         };
         this.closeUpdatePopup = (i) => {
             this.setState({
-                updatePopup: false,
                 devId : -1
             })
         };
         this.closeRemovePopup = (i) => {
             this.setState({
-                removePopup: false,
                 devId : -1
             })
         };
@@ -149,25 +171,22 @@ class DeviceTable extends Component {
         this.updateReqCb = (i) => {
             console.log("update requested, use saved devId", this.state.devId);
             let devId_update = this.state.devId;
-            this.closeSettingsPopup(null);
+            this.showUpdatePopup(i);
             this.setState({
-                updatePopup : true,
                 devId : devId_update
             })
         };
         this.removeReqCb = (i) => {
             console.log("remove requested, use saved devId", this.state.devId);
             let devId_remove = this.state.devId;
-            this.closeSettingsPopup(null);
+            this.showRemovePopup(i);
             this.setState({
-                removePopup : true,
                 devId : devId_remove
             })
         };
         this.updateConfirmCb = (i) => {
             console.log("update started, use requested devId", this.state.devId);
             let devId_update = this.state.devId;
-            this.closeUpdatePopup(null);
             this.setState({
                 updateInProgress : true,
                 devId : devId_update
@@ -215,7 +234,7 @@ class DeviceTable extends Component {
     render() {
         return (
             <div>
-            <table id="dev-table" ref={el =>  {this.tablePos = el; }}>
+            <table id="dev-table" ref={el => {this.tablePos = el; }}>
                 <tr className="table-header">
                     {table_columns.map( column_name => (
                         <th className="dev-table-header dev-table-item">{column_name}</th>
@@ -265,35 +284,6 @@ class DeviceTable extends Component {
                     </tr>
                 ))}
             </table>
-            {/* Popup section */}
-            <div>
-                {this.state.settingsPopup ? 
-                <SettingsPopup 
-                    onclose={this.closeSettingsPopup}
-                    positionSource={this.state.positionSource}
-                    onupdate={this.state.dev_info.find(el => el.id == this.state.devId).update ? this.updateReqCb : null}
-                    onremove={this.removeReqCb}
-                />
-                 : null}
-            </div>
-
-            <div>
-                {this.state.updatePopup ?
-                <UpdateDevicePopup
-                    onupdate={this.updateConfirmCb}
-                    onclose={this.closeUpdatePopup}
-                /> : null}
-            </div>
-
-            <div>
-                {this.state.removePopup ?
-                <RemoveDevicePopup
-                    onremove={this.removeConfirmCb}
-                    onclose={this.closeRemovePopup}
-                    png_ref={this.state.dev_info.find(el => el.id == this.state.devId).png}
-                /> : null}
-            </div>
-
             <div>
                 {this.state.updateInProgress ?
                 <UpdateProgressBar

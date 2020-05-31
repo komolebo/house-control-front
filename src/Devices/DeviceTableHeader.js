@@ -1,32 +1,24 @@
 import React, {Component} from 'react';
 import './DeviceTableHeader.css';
 import AddDevicePopup from '../popups/AddDevice'
+import UpdateDevicePopup from '../popups/UpdateDevice'
 
 
 class DeviceTableHeader extends Component {
 
     constructor (props) {
         super(props);
+        this.onpopup = props.onpopup;
 
-        this.state = {
-            showAddDevPopup : false
-        };
+        this.popupAddDevice = () => {
+            this.onpopup(AddDevicePopup, {
+                onadd : this.addDeviceCallback
+            })
+        }
 
-        this.addDeviceCallback = this.addDeviceCallback.bind(this);
-        this.popupAddDevice = this.popupAddDevice.bind(this);
-    }
-
-    popupAddDevice(rowId) {
-        console.log("popup");
-        this.setState({
-            showAddDevPopup : true
-        });
-    }
-
-    addDeviceCallback() {
-        this.setState({
-            showAddDevPopup : false
-        });
+        this.addDeviceCallback = (data) => {
+            console.log("data:", data);
+        }
     }
 
     render() {
@@ -34,14 +26,11 @@ class DeviceTableHeader extends Component {
             <div id="device-table-header">
                 <div id="add-device-btn">
                     <img src={process.env.PUBLIC_URL + 'Resources/button_add_device.png'} onClick={this.popupAddDevice}></img>
+                    {/* <img src={process.env.PUBLIC_URL + 'Resources/ico_wait.gif'} onClick={this.popupAddDevice}></img> */}
                 </div>
 
                 <div id="device-table-label">
                     Devices
-                </div>
-                
-                <div>
-                    {this.state.showAddDevPopup ? <AddDevicePopup closePopup={this.addDeviceCallback}/> : null}
                 </div>
             </div>
         )

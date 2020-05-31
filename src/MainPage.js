@@ -6,6 +6,35 @@ import DeviceTableHeader from './Devices/DeviceTableHeader'
 import DeviceTable from './Devices/DeviceTable'
 
 class MainPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            popup_enabled: false,
+            popup : null,
+            data : null
+        }
+
+        this.showPopup = (popup, data1) => {
+            console.log("pop: ", popup);
+            console.log("data: ", data1);
+            this.setState({
+                popup_enabled : true,
+                popup : popup,
+                data : data1
+            })
+            console.log("show popup: ", this.state.popup_enabled);
+        }
+
+        this.closePopup = () => {
+            this.setState({
+                popup_enabled : false,
+                popup : null,
+                data : null
+            })
+        }
+    }
+
     componentDidMount() {
     }
 
@@ -33,10 +62,21 @@ class MainPage extends Component {
                     
                     <div id="content-section-margin">
                         <InfoBar/>
-                        <DeviceTableHeader/>
-                        <DeviceTable/>
+                        <DeviceTableHeader onpopup={(popup, data) => this.showPopup(popup, data)}/>
+                        <DeviceTable onpopup={(popup, data) => this.showPopup(popup, data)}/>
                     </div>
                 </div> 
+
+                {/* Popups */}
+                <div>
+                    {this.state.popup_enabled ? 
+                        <this.state.popup
+                            close_cb={this.closePopup}
+                            data={this.state.data}
+                        /> : null}
+                    
+                    {/* {this.state.popup_enabled ? this.state.popup : null} */}
+                </div>
             </div>
 
         )

@@ -54,10 +54,12 @@ table td:last-child {
 }
 
 .battery-item {
+    padding-top: 10px;
     text-align: center;
 }
 
 .battery-item-text {
+    padding-top: 10px;
     padding: 5px;
     font-family: Montserrat-Regular;
     font-style: normal;
