@@ -15,9 +15,15 @@ class InfoBar extends Component {
 
     render() {
         return (
-            <div>
-                {/* ВСТАВЛЯЙ СЮДИ HTML КОД */}
-                <p color="white">ВСТАВЛЯЙ СЮДИ HTML КОД</p>
+            <div id="infobar">
+                <div id="infobar-items">
+                    <div className="infobar-item">
+                        <div className="infobar-username">Username</div>
+                        <img className="infobar-user-ico" src={process.env.PUBLIC_URL + 'Resources/ico_user.png'}></img>
+                    </div>
+                    <img className="infobar-item" src={process.env.PUBLIC_URL + 'Resources/ico_notification_active.png'}></img>
+                    <img className="infobar-item" src={process.env.PUBLIC_URL + 'Resources/ico_faq.png'}></img>
+                </div>
             </div>
         )
     }

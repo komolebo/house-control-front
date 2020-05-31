@@ -25,6 +25,14 @@ table td:last-child {
     text-align: left;
     /* background-color: lemonchiffon; */
     height: 100px;
+    padding: 5px;
+    /* outline: thin solid; */
+    /* border: 1px solid white; */
+}
+
+.dev-table-row-updating {
+    /* background-color: rgba(0, 0, 0, 0.8); */
+    opacity: 0.1;
 }
 
 .dev-table-item {
@@ -57,9 +65,9 @@ table td:last-child {
     font-size: 16px;
     line-height: 20px;
     /* identical to box height */
- }
+}
 
- .battery-item-low {
+.battery-item-low {
     color: #FF0000;;
 }
 .battery-item-middle {
@@ -78,6 +86,13 @@ table td:last-child {
 }
 
 .settings-item {
-
+    /* padding-bottom: 10px; */
+    padding-right: 20px;
+    padding-left: 10px;
+    /* background-color: chocolate; */
     float: right;
+}
+
+.settings-item-disabled {
+    opacity: 0.2;
 }

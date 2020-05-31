@@ -1,6 +1,3 @@
-* {
-}
-
 #main-page {
     overflow:auto;
 }
@@ -55,7 +52,7 @@
     top: 31px;
 }
 
-#devices-table-section {
+#content-section-margin {
     /* background-color: chocolate; */
     margin: 32px;
 }

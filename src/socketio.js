@@ -6,55 +6,55 @@ export const SENSOR_ADD = "sensor_add";
 export const DEV_ADD_SENSOR = "dev_add_sensor";
 export const DEV_NOTIFY_STATUS_DATA = 'dev_notify_status_data';
 
-class SocketHandler {
+// // class SocketHandler {
 
-    constructor() {
-        this.subscriptions = {};
-        this.connect();
-    }
+// //     constructor() {
+// //         this.subscriptions = {};
+// //         this.connect();
+// //     }
 
-    connect() {
-        this.socket = new WebSocket('ws://192.168.1.15:8000/ws/sensor');
+// //     connect() {
+// //         this.socket = new WebSocket('ws://192.168.1.15:8000/ws/sensor');
 
-        this.socket.onmessage = function(e) {
-            var data = JSON.parse(e.data);
-            var msg = data['message'];
-            var payload = data['payload'];
+// //         this.socket.onmessage = function(e) {
+// //             var data = JSON.parse(e.data);
+// //             var msg = data['message'];
+// //             var payload = data['payload'];
 
-            if (msg in this.subscriptions) {
-                this.subscriptions[msg].forEach(callback => {
-                    callback(payload);
-                });
-            }
+// //             if (msg in this.subscriptions) {
+// //                 this.subscriptions[msg].forEach(callback => {
+// //                     callback(payload);
+// //                 });
+// //             }
             
-            console.log(msg, data['payload']);
-        }.bind(this);
+// //             console.log(msg, data['payload']);
+// //         }.bind(this);
 
-        this.socket.onclose = function(e) {
-            setTimeout(() => { 
-                console.log("retry connect");
-                this.connect();
-            }, 500);
-        }.bind(this);
-    }
+// //         this.socket.onclose = function(e) {
+// //             setTimeout(() => { 
+// //                 console.log("retry connect");
+// //                 this.connect();
+// //             }, 500);
+// //         }.bind(this);
+// //     }
 
-    subscribe(msg, callback) {
-        if (msg in this.subscriptions) {
-            this.subscriptions[msg].push(callback);
-        }
-        else {
-            this.subscriptions[msg] = [callback];
-        }
-    }
+// //     subscribe(msg, callback) {
+// //         if (msg in this.subscriptions) {
+// //             this.subscriptions[msg].push(callback);
+// //         }
+// //         else {
+// //             this.subscriptions[msg] = [callback];
+// //         }
+// //     }
 
-    // notifyBackend(msg, data) {
-    //     this.socket.send(JSON.stringify({ 'message': msg, 'payload': data });
-    // }
-}
+// //     // notifyBackend(msg, data) {
+// //     //     this.socket.send(JSON.stringify({ 'message': msg, 'payload': data });
+// //     // }
+// // }
 
-var socketHandler = new SocketHandler();
+// // var socketHandler = new SocketHandler();
 
-export {
-    socketHandler
-}
+// export {
+//     socketHandler
+// }
 

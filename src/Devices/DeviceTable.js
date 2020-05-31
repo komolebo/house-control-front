@@ -1,20 +1,25 @@
 import React, {Component} from 'react';
 import './DeviceTable.css';
 import './DeviceState.css'
-
-// import Java from '../Resources/device_smoke.png';
+import UpdateDevicePopup from '../popups/UpdateDevice'
+import RemoveDevicePopup from '../popups/RemoveDevice'
+import SettingsPopup from '../popups/SettingsPopup'
+import Switch from '@material-ui/core/Switch';
+import UpdateProgressBar from './UpdateProgressBar'
 
 const table_columns = [
     'Device', 'Name', 'Location', 'State', 'Battery', 'Tamper', 'Status', ''
 ]
 
 const devices = [
-    {png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: false},
-    {png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false},
-    {png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: true},
-    {png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false},
-    {png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false},
-    {png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true},    
+    {id:0, png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: true},
+    {id:1, png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false, update: false},
+    {id:2, png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: false},
+    {id:3, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false, update: true},
+    {id:4, png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false, update: true},
+    {id:5, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
+    {id:6, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: false},    
+    {id:7, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
 ]
 
 function batteryItem(percent) {
@@ -60,17 +65,35 @@ function statusItem(value) {
     }
 }
 
-function settingsItem(device_data) {
-    if (device_data.update) {
-        return <div class="settings-item"> 
-            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_active.png'}></img>
+function settingsItem(device_data, update_func, set_ref, disabled) {
+    return <div class={"settings-item " + (disabled ? "settings-item-disabled" : "")}
+                onClick={!disabled ? update_func : null} 
+                ref={el => set_ref(el)}> 
+        <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_' + (device_data.update ? 'active' : 'inactive') + '.png'}></img>
+    </div>
+}
+
+function stateItem(device_data, state_change_cb, disabled) {
+    // return <div>
+    //     <Switch
+    //         checked={device_data}
+    //         onChange={(state) => {console.log("checked");}}
+    //         color="primary"
+    //         name="checkedB"
+    //         inputProps={{ 'aria-label': 'primary checkbox' }}
+    //   />
+    // </div>
+    return <div>
+            <div className="state-switch-cont">
+                <label class="state-switch">
+                    <input type="checkbox" checked={device_data} onChange={!disabled ? state_change_cb : null}></input>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div className={"state-item-text state-item-text-" + (device_data ? "enabled" : "disabled")}>
+                {device_data ? 'On' : 'Off'}
+            </div>
         </div>
-    }
-    else {
-        return <div class="settings-item"> 
-            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_inactive.png'}></img>
-        </div>
-    }
 }
 
 class DeviceTable extends Component {
@@ -78,23 +101,129 @@ class DeviceTable extends Component {
     constructor (props) {
         super(props);
 
-        this.handleClick = this.handleClick.bind(this);
-    }
+        this.state = {
+            settingsPopup : false,
+            updatePopup : false,
+            removePopup : false,
+            updateInProgress : false,
+            dev_info: devices,
+            selectedId : -1
+        }
+        
+        this.tablePos = null;
+        this.refArr = [];
+        this.setRef = (element, id) => {
+            // if (element != null) {
+                // console.log("element", id, element.getBoundingClientRect());
+                this.refArr[id] = element;
+            // }
+        };
 
-    handleClick(rowId) {
+        this.showSettingsPopup = (i) => {
+            this.setState({
+                settingsPopup : true,
+                devId : i,
+                positionSource : this.refArr[i]
+            })
+        };
+
+        this.closeSettingsPopup = (i) => {
+            this.setState({
+                settingsPopup: false,
+                devId : -1
+            })
+        };
+        this.closeUpdatePopup = (i) => {
+            this.setState({
+                updatePopup: false,
+                devId : -1
+            })
+        };
+        this.closeRemovePopup = (i) => {
+            this.setState({
+                removePopup: false,
+                devId : -1
+            })
+        };
+
+        this.updateReqCb = (i) => {
+            console.log("update requested, use saved devId", this.state.devId);
+            let devId_update = this.state.devId;
+            this.closeSettingsPopup(null);
+            this.setState({
+                updatePopup : true,
+                devId : devId_update
+            })
+        };
+        this.removeReqCb = (i) => {
+            console.log("remove requested, use saved devId", this.state.devId);
+            let devId_remove = this.state.devId;
+            this.closeSettingsPopup(null);
+            this.setState({
+                removePopup : true,
+                devId : devId_remove
+            })
+        };
+        this.updateConfirmCb = (i) => {
+            console.log("update started, use requested devId", this.state.devId);
+            let devId_update = this.state.devId;
+            this.closeUpdatePopup(null);
+            this.setState({
+                updateInProgress : true,
+                devId : devId_update
+            })
+        }
+        this.removeConfirmCb = (i) => {
+            console.log("removing device, use requested devId", this.state.devId);
+            let devId_remove = this.state.devId;
+            this.closeRemovePopup(null);
+
+            this.setState({
+                dev_info: this.state.dev_info.filter(device_data => (device_data.id != devId_remove)),
+                devId : -1
+            });
+            console.log("new dev-info", this.state.dev_info);
+        }
+
+        this.updateCompleteCb = (i) => {
+            console.log("Update finished");
+            this.setState({
+                updateInProgress : false,
+                devId : -1
+            })
+        }
+        this.removeCompleteCb = (i) => {
+            console.log("Remove finished");
+            this.setState({
+                devId : -1
+            })
+        }
+
+        this.state_changed = (i) => {
+            console.log("state changed", i);
+            console.log(this.state.dev_info);
+
+            this.setState(this.state.dev_info.map(device_data => {
+                if (device_data.id === i) {
+                    device_data.state = !device_data.state;
+                }
+                return device_data;
+            }));
+        }
     }
 
     render() {
         return (
-            <table id="dev-table">
+            <div>
+            <table id="dev-table" ref={el =>  {this.tablePos = el; }}>
                 <tr className="table-header">
                     {table_columns.map( column_name => (
                         <th className="dev-table-header dev-table-item">{column_name}</th>
                     ))}
                 </tr>
                 
-                {devices.map(device_data => (
-                    <tr class="dev-table-row">
+                {this.state.dev_info.map(device_data => (
+                    <tr class={"dev-table-row " + ((this.state.updateInProgress && this.state.devId == device_data.id) ? "dev-table-row-updating" : "")} >
                         <td class="dev-table-item dev-tab-item-text">
                             <img src={process.env.PUBLIC_URL + device_data.png}></img>
                             
@@ -108,10 +237,11 @@ class DeviceTable extends Component {
                         </td>
 
                         <td class="dev-table-item">
-                            <label class="switch">
-                                <input type="checkbox"></input>
-                                <span class="slider round"></span>
-                            </label>
+                            {stateItem(
+                                device_data.state, 
+                                (x) => this.state_changed(device_data.id),
+                                this.state.updateInProgress && this.state.devId == device_data.id
+                            )}
                         </td>
 
                         <td class="dev-table-item">
@@ -126,13 +256,54 @@ class DeviceTable extends Component {
                             {statusItem(device_data.status)}
                         </td>
 
-                        <td class="dev-table-item dev-tab-item-text">
-                            {settingsItem(device_data)}
+                        <td class="dev-tab-item-text">
+                            {settingsItem(device_data, 
+                                        e => this.showSettingsPopup(device_data.id),
+                                        el => this.setRef(el, device_data.id),
+                                        this.state.updateInProgress)}
                         </td>
-
                     </tr>
                 ))}
             </table>
+            {/* Popup section */}
+            <div>
+                {this.state.settingsPopup ? 
+                <SettingsPopup 
+                    onclose={this.closeSettingsPopup}
+                    positionSource={this.state.positionSource}
+                    onupdate={this.state.dev_info.find(el => el.id == this.state.devId).update ? this.updateReqCb : null}
+                    onremove={this.removeReqCb}
+                />
+                 : null}
+            </div>
+
+            <div>
+                {this.state.updatePopup ?
+                <UpdateDevicePopup
+                    onupdate={this.updateConfirmCb}
+                    onclose={this.closeUpdatePopup}
+                /> : null}
+            </div>
+
+            <div>
+                {this.state.removePopup ?
+                <RemoveDevicePopup
+                    onremove={this.removeConfirmCb}
+                    onclose={this.closeRemovePopup}
+                    png_ref={this.state.dev_info.find(el => el.id == this.state.devId).png}
+                /> : null}
+            </div>
+
+            <div>
+                {this.state.updateInProgress ?
+                <UpdateProgressBar
+                    x={this.tablePos.getBoundingClientRect().x}
+                    y={this.state.positionSource.getBoundingClientRect().y}
+                    oncomplete={this.updateCompleteCb}
+                /> : null}
+            </div>
+
+            </div>
         )
     }
 }

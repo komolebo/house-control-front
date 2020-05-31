@@ -41,7 +41,7 @@ class DeviceTableHeader extends Component {
                 </div>
                 
                 <div>
-                    {this.state.showAddDevPopup ? <AddDevicePopup/> : null}
+                    {this.state.showAddDevPopup ? <AddDevicePopup closePopup={this.addDeviceCallback}/> : null}
                 </div>
             </div>
         )

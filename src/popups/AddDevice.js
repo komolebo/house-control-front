@@ -39,7 +39,9 @@ class AddDevicePopup extends Component {
         return (
             <div>
                 <div className='popup'>
-                    <div className='popup_inner'>
+                    <div className='popup-inner'>
+                        <div className="popup-text-label">Add new device</div>
+
                         <h1>{this.props.text}</h1>
                         <button onClick={this.props.closePopup}>close me</button>
                     </div>
