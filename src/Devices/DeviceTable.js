@@ -3,6 +3,7 @@ import './DeviceTable.css';
 import './DeviceState.css'
 import UpdateDevicePopup from '../popups/UpdateDevice'
 import RemoveDevicePopup from '../popups/RemoveDevice'
+import EditDevicePopup from '../popups/EditDevice'
 import SettingsPopup from '../popups/SettingsPopup'
 import Switch from '@material-ui/core/Switch';
 import UpdateProgressBar from './UpdateProgressBar'
@@ -12,14 +13,14 @@ const table_columns = [
 ]
 
 const devices = [
-    {id:0, png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: true},
-    {id:1, png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false, update: false},
-    {id:2, png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: false},
-    {id:3, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false, update: true},
-    {id:4, png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false, update: true},
-    {id:5, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
-    {id:6, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: false},    
-    {id:7, png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
+    {id:0, mac:"123456", png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: true},
+    {id:1, mac:"123456", png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false, update: false},
+    {id:2, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: false},
+    {id:3, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false, update: true},
+    {id:4, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false, update: true},
+    {id:5, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
+    {id:6, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: false},    
+    {id:7, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
 ]
 
 function batteryItem(percent) {
@@ -119,7 +120,8 @@ class DeviceTable extends Component {
             this.onpopup(SettingsPopup, {
                 positionSource : this.refArr[id],
                 update_cb : this.state.dev_info.find(el => el.id == id).update ? this.updateReqCb : null,
-                remove_cb : this.removeReqCb
+                remove_cb : this.removeReqCb,
+                edit_cb : this.editReqCb
             });
 
             this.setState({
@@ -129,7 +131,6 @@ class DeviceTable extends Component {
         };
 
         this.showUpdatePopup = (id) => {
-            console.log("showing update popup");
             this.onpopup(UpdateDevicePopup, {
                 update_cb : this.updateConfirmCb,
             });
@@ -140,11 +141,21 @@ class DeviceTable extends Component {
         };
 
         this.showRemovePopup = (id) => {
-            console.log("showing remove popup");
             this.onpopup(RemoveDevicePopup, {
                 remove_cb : this.removeConfirmCb,
                 png_ref : this.state.dev_info.find(el => el.id == this.state.devId).png,
                 dev_name : this.state.dev_info.find(el => el.id == this.state.devId).name
+            });
+
+            this.setState({
+                devId : id,
+            })
+        };
+
+        this.showEditPopup = (id) => {
+            this.onpopup(EditDevicePopup, {
+                edit_cb : this.editCb,
+                dev_data : this.state.dev_info.find(el => el.id == this.state.devId)
             });
 
             this.setState({
@@ -184,6 +195,14 @@ class DeviceTable extends Component {
                 devId : devId_remove
             })
         };
+        this.editReqCb = (i) => {
+            console.log("edit requested, use saved devId", this.state.devId);
+            let devId_edit = this.state.devId;
+            this.showEditPopup(i);
+            this.setState({
+                devId : devId_edit
+            })
+        };
         this.updateConfirmCb = (i) => {
             console.log("update started, use requested devId", this.state.devId);
             let devId_update = this.state.devId;
@@ -191,7 +210,7 @@ class DeviceTable extends Component {
                 updateInProgress : true,
                 devId : devId_update
             })
-        }
+        };
         this.removeConfirmCb = (i) => {
             console.log("removing device, use requested devId", this.state.devId);
             let devId_remove = this.state.devId;
@@ -217,7 +236,13 @@ class DeviceTable extends Component {
                 devId : -1
             })
         }
-
+        this.editCb = (i) => {
+            console.log("Edit finished");
+            this.setState({
+                devId : -1
+            })
+        }
+        
         this.state_changed = (i) => {
             console.log("state changed", i);
             console.log(this.state.dev_info);

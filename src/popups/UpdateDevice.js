@@ -20,15 +20,18 @@ class UpdateDevicePopup extends Component {
     render() {
         return (
             <div>
-                <div className='popup-update'>
+                <div className='popup darken'>
                     <div className='popup-update-inner'>
+                        <div className="top-right">
+                                <img src={process.env.PUBLIC_URL + 'Resources/button_popup_close.png'} onClick={this.close_cb}></img>
+                        </div>
                         <div className='center-pos update-ico'> 
                             <img src={process.env.PUBLIC_URL + "Resources/ico_device_update.png"}></img>
                         </div>
                         <div className="popup-text-label center-pos">Do you want to update Device?</div>
                         <div className="popup-buttons-container center-pos">
-                            <button className="update-button update-button-cancel" onClick={this.close_cb}>Cancel</button>
-                            <button className="update-button update-button-update" onClick={this.onupdate}>Update</button> 
+                            <button className="button cancel" onClick={this.close_cb}>Cancel</button>
+                            <button className="button" onClick={this.onupdate}>Update</button> 
                         </div>
                     </div>
                 </div>

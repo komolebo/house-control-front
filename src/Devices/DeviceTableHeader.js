@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './DeviceTableHeader.css';
-import AddDevicePopup from '../popups/AddDevice'
+import AddDevicePopup from '../popups/add/AddDevice'
 import UpdateDevicePopup from '../popups/UpdateDevice'
 
 
@@ -12,7 +12,7 @@ class DeviceTableHeader extends Component {
 
         this.popupAddDevice = () => {
             this.onpopup(AddDevicePopup, {
-                onadd : this.addDeviceCallback
+                add_cb : this.addDeviceCallback
             })
         }
 
@@ -26,7 +26,6 @@ class DeviceTableHeader extends Component {
             <div id="device-table-header">
                 <div id="add-device-btn">
                     <img src={process.env.PUBLIC_URL + 'Resources/button_add_device.png'} onClick={this.popupAddDevice}></img>
-                    {/* <img src={process.env.PUBLIC_URL + 'Resources/ico_wait.gif'} onClick={this.popupAddDevice}></img> */}
                 </div>
 
                 <div id="device-table-label">

@@ -13,12 +13,11 @@ class SettingsPopup extends Component {
     constructor (props) {
         super(props);
 
-        console.log("settings props", props);
-
         this.closePopup = props.close_cb;
         this.pos_src = props.data.positionSource;
         this.update_cb = props.data.update_cb;
         this.remove_cb = props.data.remove_cb;
+        this.edit_cb = props.data.edit_cb;
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.updateView = this.updateView.bind(this);
@@ -37,6 +36,10 @@ class SettingsPopup extends Component {
         this.onupdate = () => {
             this.closePopup();
             this.update_cb();
+        }
+        this.onedit = () => {
+            this.closePopup();
+            this.edit_cb();
         }
     }
 
@@ -91,28 +94,26 @@ class SettingsPopup extends Component {
     render() {
         return (
             this.state.styles ? (
-            <div>
-                <div className='popup-settings'>
+                <div className='popup'>
                     <div className='popup-settings-inner' style={this.state.styles}  onMouseLeave={this.closePopup}>
                         {this.state.update ? (
                         <div id="popup-setting-item">
                             <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_update.png'} onClick={this.onupdate}/>
-                            <div className="popup-setting-update popup-setting-text">Update</div>
+                            <div className="red-col label">Update</div>
                         </div>
                         ) : null 
                         }
 
                         <div id="popup-setting-item">
                             <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_remove.png'} onClick={this.onremove}/>
-                            <div className="popup-setting-remove popup-setting-text">Delete</div>
+                            <div className="select-col label">Delete</div>
                         </div>
                         <div id="popup-setting-item">
-                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_edit.png'}/>
-                            <div className="popup-setting-edit popup-setting-text">Edit</div>
+                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_edit.png'} onClick={this.onedit}/>
+                            <div className="select-col label">Edit</div>
                         </div>
                     </div>
                 </div>
-            </div>
             ) : <div/>
         )
     }

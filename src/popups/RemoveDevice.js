@@ -22,8 +22,11 @@ class RemoveDevicePopup extends Component {
     render() {
         return (
             <div>
-                <div className='popup-remove'>
+                <div className='popup darken'>
                     <div className='popup-remove-inner'>
+                        <div className="top-right">
+                                <img src={process.env.PUBLIC_URL + 'Resources/button_popup_close.png'} onClick={this.close_cb}></img>
+                        </div>
                         <div className="pop-remove-top">
                             <div className='center-pos remove-ico'> 
                                 <img src={process.env.PUBLIC_URL + this.png_ref}></img>
@@ -33,10 +36,10 @@ class RemoveDevicePopup extends Component {
                             </div>
                         </div>
 
-                        <div className="popup-remove-text-label center-pos">Do you want to delete Device?</div>
+                        <div className="label white center-pos">Do you want to delete Device?</div>
                         <div className="popup-buttons-container center-pos">
-                            <button className="remove-button remove-button-cancel" onClick={this.close_cb}>Cancel</button>
-                            <button className="remove-button remove-button-remove" onClick={this.onremove}>Remove</button> 
+                            <button className="button cancel" onClick={this.close_cb}>Cancel</button>
+                            <button className="button active" onClick={this.onremove}>Remove</button> 
                         </div>
                     </div>
                 </div>
