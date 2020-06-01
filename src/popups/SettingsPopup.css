@@ -30,7 +30,7 @@
 #popup-setting-item {
     text-align: center;
     float: right;
-    padding: 6px;
+    padding: 12px;
 }
 
 .popup-setting-text {
@@ -49,4 +49,8 @@
 
 .popup-setting-remove {
     color: #0028FE;
+}
+.popup-setting-edit{
+    color: #0028FE;
+    /* padding:2px ; */
 }

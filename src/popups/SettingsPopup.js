@@ -106,6 +106,10 @@ class SettingsPopup extends Component {
                             <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_remove.png'} onClick={this.onremove}/>
                             <div className="popup-setting-remove popup-setting-text">Delete</div>
                         </div>
+                        <div id="popup-setting-item">
+                            <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_device_edit.png'}/>
+                            <div className="popup-setting-edit popup-setting-text">Edit</div>
+                        </div>
                     </div>
                 </div>
             </div>

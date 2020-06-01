@@ -5,19 +5,26 @@
     color: #5D5D5D;
 }
 
+/*-------------- positioning -------------*/
 .center-pos{
     /* background-color: cadetblue; */
-    text-align: center;
+    /* text-align: center; */
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
+.right-pos{
+    float: right;
+}
+.left-pos{
+    float: left;
+}
 
 .popup-buttons-container{
     float: right;
     /* height: 20%; */
     /* background-color: cornflowerblue; */
-    padding: 10px;
+    padding: 18px;
 }
 
 .popup-close-window {
@@ -35,4 +42,21 @@
 
 .border-inactive {
     border: solid 1px #5D5D5D;
+}
+
+/*-------------- texting -------------*/
+.text-label-simple {
+    font-family: Montserrat-Regular;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    /* line-height: 20px; */
+    /* identical to box height */
+    height: 20px;
+    text-align: left;
+
+    color: #FFFFFF;
+}
+.text-color-grey {
+    color: #5D5D5D;
 }

@@ -11,8 +11,8 @@
 }
 .popup-add-inner {
   position: absolute;
-  width: 550px;
-  left: 38%;
+  width: 580px;
+  left: calc(50% - 250px);
   /* right: 38%; */
   top: 31%;
   /* bottom: 22%; */
@@ -44,15 +44,50 @@
 
 #scan-dev-info-section {
   width: 100%;
+  height: 250px;
   /* background-color: slategrey; */
 }
 
 .scan-dev-card {
   width: 200px;
   height: 180px;
-  padding: 10px;
+  padding: 12px;
   float: left;
   margin: 20px;
+  /* background-color: burlywood; */
+}
+
+.scan-dev-nothing-found {
+  color: white;
+  font-family: Montserrat-Regular;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  height: 100%;
+}
+
+.scan-dev-paginator {
+  /* background-color: yellow; */
+  position: absolute;
+  height: 50px;
+  top: 45%;
+  padding: 5px;
+  /* height: 100%; */
+}
+
+.scan-dev-paginator-left {
+  left: 10px;
+  /* float: left; */
+}
+.scan-dev-paginator-right {
+  /* float: right; */
+  right: 15px;
+}
+
+#scan-dev-list {
+  margin: 10px;
+  margin-top: 0px;
+  padding: 10px;
 }
 
 #scan-checkbox-container{
@@ -60,8 +95,15 @@
 }
 
 .scanned-dev-card-ico {
-  padding: 50px;
+  padding: 40px;
+  padding-left: 50px;
   padding-bottom: 10px;
+  /* background-color: violet; */
+}
+
+.scan-dev-single {
+  /* background-color: brown; */
+  width: 100%;
 }
 
 .add-button{
@@ -74,9 +116,30 @@
   border: none;
 }
 
+.button-disabled {
+  background: rgb(63, 58, 58);
+}
+
 .add-button-cancel{
   background: none; 
 }
 .add-button-add{
 
+}
+
+#add-dev-setup-info-section{
+  /* background-color: teal; */
+  height: 250px;
+}
+
+#add-dev-setup-section {
+  margin-top: 25px;
+  margin-left: 5px;
+  /* background-color: tomato; */
+  width: 280px;
+}
+
+.add-dev-setup-item {
+  /* background-color: tomato; */
+  padding-bottom: 15px;
 }

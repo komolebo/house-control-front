@@ -7,6 +7,8 @@ class SelectCheckbox extends Component {
     constructor(props) {
         super(props);
 
+        console.log("checkbox", "created");
+
         this.onclick = props.onclick;
         this.checked = props.checked;
 

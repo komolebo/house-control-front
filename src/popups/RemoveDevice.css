@@ -42,10 +42,10 @@
 }
 
 .remove-ico {
-    /* margin: 20px; */
+    margin-top: 20px;
      /* background-color: chocolate; */
      /* padding-top: 40px; */
-     height: 150px;
+     height: 120px;
      /* height: 50%; */
 }
 
@@ -57,12 +57,6 @@
     font-style: normal;
     color: white;
     border: none;
-}
-.remove-buttons-container{
-  float: right;
-  /* height: 20%; */
-  /* background-color: cornflowerblue; */
-  padding: 20px;
 }
 
 .remove-button-cancel{

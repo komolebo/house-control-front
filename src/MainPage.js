@@ -62,8 +62,12 @@ class MainPage extends Component {
                     
                     <div id="content-section-margin">
                         <InfoBar/>
-                        <DeviceTableHeader onpopup={(popup, data) => this.showPopup(popup, data)}/>
-                        <DeviceTable onpopup={(popup, data) => this.showPopup(popup, data)}/>
+                        <DeviceTableHeader 
+                            onpopup={(popup, data) => this.showPopup(popup, data)}
+                        />
+                        <DeviceTable 
+                            onpopup={(popup, data) => this.showPopup(popup, data)}
+                        />
                     </div>
                 </div> 
 
