@@ -7,6 +7,10 @@ table td:last-child {
     width: 100%;
 }
 
+.tableFixHead {
+    height: 78vh;
+    overflow: auto;
+}
 
 .dev-table-header {
     font-family: Montserrat-Regular;

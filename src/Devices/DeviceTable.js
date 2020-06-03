@@ -258,7 +258,7 @@ class DeviceTable extends Component {
 
     render() {
         return (
-            <div>
+            <div className="tableFixHead">
             <table id="dev-table" ref={el => {this.tablePos = el; }}>
                 <tr className="table-header">
                     {table_columns.map( column_name => (
