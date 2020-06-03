@@ -64,7 +64,7 @@ export default class AddDevicePopup extends Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.debug_fake_scan_complete(), 5000);
+        this.interval = setInterval(() => this.debug_fake_scan_complete(), 500);
     }
 
     componentWillUnmount() {
@@ -109,7 +109,7 @@ export default class AddDevicePopup extends Component {
                 <div className="widthy center-pos">
                     <img src={process.env.PUBLIC_URL + 'Resources/ico_wait_big.gif'}/>
                 </div>
-                <div className="widthy label select-col center-pos">Scanning</div>
+                <div className="widthy label select-col center-pos">Scanning for devices</div>
             </div>
         }
 
@@ -126,6 +126,7 @@ export default class AddDevicePopup extends Component {
 
                         {main_content}
 
+                        {this.state.scanned ?
                         <div className="popup-buttons-container center-pos">
                             <button className="button cancel" onClick={this.close_cb}>Cancel</button>
                             <button 
@@ -135,6 +136,7 @@ export default class AddDevicePopup extends Component {
                                     {button_text}
                             </button> 
                         </div>
+                        : null}
                     </div>
                 </div>
 
