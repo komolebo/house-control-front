@@ -44,7 +44,7 @@ class UpdateProgressBar extends Component {
 
     render() {
         return (
-            <div className="update-progress-bar-container" style={this.state.styles}>
+            <div className="update-progress-bar-container">
                 <CircularProgressbar 
                     value={this.state.percentage}
                     text={this.state.percentage + '%'}                    

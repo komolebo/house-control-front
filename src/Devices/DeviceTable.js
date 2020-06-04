@@ -104,6 +104,8 @@ class DeviceTable extends Component {
 
         this.onpopup = props.onpopup;
 
+        this.isItemUpdating.bind(this);
+
         this.state = {
             updateInProgress : false,
             dev_info: devices,
@@ -256,6 +258,10 @@ class DeviceTable extends Component {
         }
     }
 
+    isItemUpdating(id) {
+        return this.state.updateInProgress && this.state.devId == id;
+    }
+
     render() {
         return (
             <div className="tableFixHead">
@@ -265,22 +271,36 @@ class DeviceTable extends Component {
                         <th className="dev-table-header dev-table-item">{column_name}</th>
                     ))}
                 </tr>
-                
+
                 {this.state.dev_info.map(device_data => (
-                    <tr class={"dev-table-row " + ((this.state.updateInProgress && this.state.devId == device_data.id) ? "dev-table-row-updating" : "")} >
-                        <td class="dev-table-item dev-tab-item-text">
-                            <img src={process.env.PUBLIC_URL + device_data.png}></img>
-                            
-                        </td>
-                        <td class="dev-table-item dev-tab-item-text">
+                    <tr class={"dev-table-row"} >
+                        
+
+                        {this.isItemUpdating(device_data.id) ? (
+                            <td>
+                                <UpdateProgressBar
+                                    x={this.tablePos.getBoundingClientRect().x}
+                                    y={this.state.positionSource.getBoundingClientRect().y}
+                                    oncomplete={this.updateCompleteCb}
+                                />     
+                            </td> 
+                            ) : (
+                            <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                                <img src={process.env.PUBLIC_URL + device_data.png}></img>
+                            </td>
+                        )}
+
+
+
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {device_data.name}
                         </td>
 
-                        <td class="dev-table-item dev-tab-item-text">
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {device_data.location}
                         </td>
 
-                        <td class="dev-table-item">
+                        <td class={"dev-table-item " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {stateItem(
                                 device_data.state, 
                                 (x) => this.state_changed(device_data.id),
@@ -288,19 +308,19 @@ class DeviceTable extends Component {
                             )}
                         </td>
 
-                        <td class="dev-table-item">
+                        <td class={"dev-table-item " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {batteryItem(device_data.battery)}
                         </td>
 
-                        <td class="dev-table-item dev-tab-item-text">
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {tamperItem(device_data.tamper)}
                         </td>
 
-                        <td class="dev-table-item dev-tab-item-text">
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {statusItem(device_data.status)}
                         </td>
 
-                        <td class="dev-tab-item-text">
+                        <td class={"dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
                             {settingsItem(device_data, 
                                         e => this.showSettingsPopup(device_data.id),
                                         el => this.setRef(el, device_data.id),
@@ -309,15 +329,6 @@ class DeviceTable extends Component {
                     </tr>
                 ))}
             </table>
-            <div>
-                {this.state.updateInProgress ?
-                <UpdateProgressBar
-                    x={this.tablePos.getBoundingClientRect().x}
-                    y={this.state.positionSource.getBoundingClientRect().y}
-                    oncomplete={this.updateCompleteCb}
-                /> : null}
-            </div>
-
             </div>
         )
     }

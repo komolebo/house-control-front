@@ -1,15 +1,10 @@
 .update-progress-bar-container{
-    position: absolute;
     /* background-color: darkgoldenrod; */
     width: 80px;
     height: 80px;
     color: darkgray;
-    /* opacity: 2.0; */
 }
 
-body {
-    /* font-family: Arial, Helvetica, sans-serif; */
-}
   
 .CircularProgressbar {
   /*

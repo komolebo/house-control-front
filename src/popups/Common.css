@@ -18,6 +18,9 @@
 .red-col {
     color: #FF0000;
 }
+.diaphanous {
+    opacity: 0.1;
+}
 
 /*-------------- positioning -------------*/
 .center-pos{

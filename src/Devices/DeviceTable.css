@@ -34,11 +34,6 @@ table td:last-child {
     /* border: 1px solid white; */
 }
 
-.dev-table-row-updating {
-    /* background-color: rgba(0, 0, 0, 0.8); */
-    opacity: 0.1;
-}
-
 .dev-table-item {
     /* background-color: lightskyblue; */
     padding: 20px;
