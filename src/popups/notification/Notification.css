@@ -8,37 +8,19 @@
   /* bottom: 22%; */
   margin:auto;
   /* background: #14131B; */
-  max-height: 500;
+  max-height: 100%;
   /* overflow: scroll; */
   overflow-x: hidden;
 }
-/* .notification-red-ico{
-  float: left;
-  padding-right: 8px;
-  padding-left: 8px;
 
-
-}
-.notification{
-  color: white;
-  font-family: Montserrat-Regular;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  margin: 3px;
-  width: 100px;
-  background-color: tomato;
-  display: ;
-
-} */
 .head{
 background: #15151C;
 height:18px;
 border-bottom: black solid 1px;
 padding: 16px;
 position: sticky;
-top: 16px;
-/* background-color: black; */
+top: 0%;
+/* background-color: green; */
 }
 .popup-text{
   /* background-color: tomato; */
@@ -56,7 +38,7 @@ top: 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
   overflow-x: hidden;
   overflow-y: scroll;
-  max-height: 600px;
+  max-height: 80vh;
 }
 .notity-item{
 /* background-color: rgb(185, 33, 185); */
@@ -100,7 +82,7 @@ color: #FFFFFF;
 .item-time{
 /* background-color: darkgreen; */
 }
-.item-delete{
+.item-action{
 /* background-color: darkorange; */
 display:inline-block;
 /* float: left; */
@@ -144,4 +126,7 @@ li {
     top: -10px;
     left: 160px;
 
+}
+.item-status-notification{
+ padding-top: 18px;
 }
