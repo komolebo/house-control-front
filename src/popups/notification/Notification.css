@@ -1,12 +1,16 @@
 .popup-notify-inner {
   position: absolute;
-  width: 380px;
-  left: 38%;
+  width: 386px;
+  /* left: 75%; */
+  right: 1%;
   /* right: 38%; */
-  top: 31%;
+  top: 10%;
   /* bottom: 22%; */
-  margin: auto;
-  background: #14131B;
+  margin:auto;
+  /* background: #14131B; */
+  max-height: 500;
+  /* overflow: scroll; */
+  overflow-x: hidden;
 }
 /* .notification-red-ico{
   float: left;
@@ -28,10 +32,13 @@
 
 } */
 .head{
-/* background-color: turquoise; */
-height:30px;
+background: #15151C;
+height:18px;
 border-bottom: black solid 1px;
-margin: 10px;
+padding: 16px;
+position: sticky;
+top: 16px;
+/* background-color: black; */
 }
 .popup-text{
   /* background-color: tomato; */
@@ -45,13 +52,18 @@ margin: 10px;
 }
 .notification-list{
   /* background-color: thistle; */
+  background: linear-gradient(180deg, #14141B 0%, #191A1E 100%);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  max-height: 600px;
 }
 .notity-item{
 /* background-color: rgb(185, 33, 185); */
 width: 100%;
 /* height: 200px; */
 border-bottom: 1px solid black; 
-margin-top: 8px;
+margin-top: 4px;
 }
 .item-ico{
 display:inline-block;
@@ -73,12 +85,14 @@ width: 260px;
 /* background-color: green; */
 padding: 10px;
 /* padding-top: 16px; */
-
+color: white;
 font-family: Montserrat-Regular;
-font-style: normal;
-font-weight: normal;
+font-weight: initial;
 font-size: 12px;
 /* line-height: 15px; */
+/* background: #f0f0f0; Цвет фона */
+width: 230px; /* Ширина блока */
+word-wrap: break-word; /* Перенос слов *
 
 color: #FFFFFF;
 
@@ -114,3 +128,20 @@ padding: 12px;
   padding: 12px;
 }
 
+ul {
+    /* background-color: lightcoral; */
+    padding-left: 0
+}
+li {
+    /* background-color: lightseagreen; */
+}
+.element{
+  /* background-color: aqua; */
+  position: absolute;
+  
+  /* padding: 12px; */
+
+    top: -10px;
+    left: 160px;
+
+}

@@ -19,7 +19,7 @@
     color: #FF0000;
 }
 .diaphanous {
-    opacity: 0.1;
+    opacity: 0.4;
 }
 
 /*-------------- positioning -------------*/
@@ -80,8 +80,7 @@
     font-family: Montserrat-Regular;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
-    line-height: 20px;
+    /* font-size: 16px; */
 }
 .text-color-grey {
     color: #5D5D5D;
