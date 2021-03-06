@@ -41,7 +41,7 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_active.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_close_blue.png'}></img>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_active.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_close.png'}></img>
                                             </div>
                                         </div>
                                     </div>
@@ -88,61 +88,17 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_active.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_close.png'}></img>
                                             </div>
                                         </div>
                                     </div>
                                 </li> 
-
-
-                                <li>
-                                    <div className='notity-item '>
-                                        <div className='item-ico'>
-                                            <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
-                                        </div>
-                                        <div className='item-data'>
-                                            <div className='label item-text'>Lorem ipsum dolor sit amet, 
-                                                consectetur adipiscing elitdsadkl 
-                                            </div>
-                                            <div className='item-time time-style'>Today, 10:00 AM</div>
-                                        </div>
-                                        <div className='item-action'>
-                                            <div className='item-delete'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
-                                            </div>
-                                            <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_active.png'}></img>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li>
                                     <div className='notity-item'>
                                         <div className='item-ico diaphanous'>
                                             <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
                                         </div>
                                         <div className='item-data diaphanous'>
-                                            <div className='label item-text diaphanous'>Lorem ipsum1 dolor sit amet, 
-                                                consectetur adipiscing elitdsadkl 
-                                            </div>
-                                            <div className='item-time time-style diaphanous'>Today, 10:00 AM</div>
-                                        </div>
-                                        <div className='item-action'>
-                                            <div className='item-delete'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
-                                            </div>
-                                            <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_inactive.png'}></img>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li> 
-                                <li>
-                                    <div className='notity-item diaphanous'>
-                                        <div className='item-ico'>
-                                            <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
-                                        </div>
-                                        <div className='item-data'>
                                             <div className='label item-text'>Lorem ipsum1 dolor sit amet, 
                                                 consectetur adipiscing elitdsadkl 
                                             </div>
@@ -153,17 +109,17 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_inactive.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_open.png'}></img>
                                             </div>
                                         </div>
                                     </div>
                                 </li> 
                                 <li>
-                                    <div className='notity-item diaphanous'>
-                                        <div className='item-ico'>
+                                    <div className='notity-item'>
+                                        <div className='item-ico diaphanous'>
                                             <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
                                         </div>
-                                        <div className='item-data'>
+                                        <div className='item-data diaphanous'>
                                             <div className='label item-text'>Lorem ipsum1 dolor sit amet, 
                                                 consectetur adipiscing elitdsadkl 
                                             </div>
@@ -174,17 +130,17 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_inactive.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_open.png'}></img>
                                             </div>
                                         </div>
                                     </div>
-                                </li> 
+                                </li>  
                                 <li>
-                                    <div className='notity-item diaphanous'>
-                                        <div className='item-ico'>
+                                    <div className='notity-item'>
+                                        <div className='item-ico diaphanous'>
                                             <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
                                         </div>
-                                        <div className='item-data'>
+                                        <div className='item-data diaphanous'>
                                             <div className='label item-text'>Lorem ipsum1 dolor sit amet, 
                                                 consectetur adipiscing elitdsadkl 
                                             </div>
@@ -195,32 +151,11 @@ export default class NotificationPopup extends Component {
                                                 <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
                                             </div>
                                             <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_inactive.png'}></img>
+                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_massege_open.png'}></img>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div className='notity-item diaphanous'>
-                                        <div className='item-ico'>
-                                            <img className="" src={process.env.PUBLIC_URL + 'Resources/ico_notification_blue.png'}></img>
-                                        </div>
-                                        <div className='item-data'>
-                                            <div className='label item-text'>Lorem ipsum1 dolor sit amet, 
-                                                consectetur adipiscing elitdsadkl 
-                                            </div>
-                                            <div className='item-time time-style'>Today, 10:00 AM</div>
-                                        </div>
-                                        <div className='item-action'>
-                                            <div className='item-delete'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_notification_delete.png'}></img>
-                                            </div>
-                                            <div className='item-status-notification'>
-                                                <img className=""src={process.env.PUBLIC_URL + 'Resources/ico_status_message_inactive.png'}></img>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>                
                             </ul>
                         </div>
                     </div>  
