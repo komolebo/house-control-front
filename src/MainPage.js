@@ -17,13 +17,11 @@ class MainPage extends Component {
 
         this.showPopup = (popup, data1) => {
             console.log("pop: ", popup);
-            console.log("data: ", data1);
             this.setState({
                 popup_enabled : true,
                 popup : popup,
                 data : data1
             })
-            console.log("show popup: ", this.state.popup_enabled);
         }
 
         this.closePopup = () => {

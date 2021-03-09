@@ -13,19 +13,22 @@ export class DeviceSetup extends Component {
 
         this.data = {
             location : null,
-            name : null
+            name : null,
+            mac : null
         }
+        
+        this.data.mac = this.dev_data.mac;
 
-        this.onselect = event => {
-            this.data.location = event.target.value;
+        this.onselectLoc = event => {
+            this.dev_data.location = event.target.value;
             
-            if (this.pass_data_to_ext) { this.pass_data_to_ext(this.data) }
+            if (this.pass_data_to_ext) { this.pass_data_to_ext( this.dev_data );}
         }
         
         this.oninput = event => {
-            this.data.name = event.target.value;
+            this.dev_data.name = event.target.value;
 
-            if (this.pass_data_to_ext) { this.pass_data_to_ext(this.data) }
+            if (this.pass_data_to_ext) { this.pass_data_to_ext(this.dev_data) }
         }
     }
 
@@ -47,7 +50,8 @@ export class DeviceSetup extends Component {
 
                 <div className="text-label-simple add-dev-setup-item">Device Location</div>
                 <div className="add-dev-setup-item">
-                    <select className="select-styled select" onChange={this.onselect}>
+                    <select className="select-styled select" onChange={this.onselectLoc} selected="selected">
+                        <option value="" selected disabled hidden>{this.dev_data.location}</option>
                         {this.locations.map(location => (
                             <option className="select1 select-styled select-options" value={location}>{location}</option>
                         ))}
@@ -57,7 +61,7 @@ export class DeviceSetup extends Component {
 
                 <div className="text-label-simple add-dev-setup-item">Device name</div>
                 <div className="add-dev-setup-item">
-                    <input type="input" class="form__field" placeholder="Device name" name="name" id='name' onChange={this.oninput} required />
+                    <input type="input" class="form__field" placeholder={this.dev_data.name} name="name" id='name' onChange={this.oninput} required />
                 </div>
             </div>
         </div>

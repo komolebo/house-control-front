@@ -8,19 +8,21 @@ import SettingsPopup from '../popups/SettingsPopup'
 import Switch from '@material-ui/core/Switch';
 import UpdateProgressBar from './UpdateProgressBar'
 
+import socket from '../socketio'
+
 const table_columns = [
     'Device', 'Name', 'Location', 'State', 'Battery', 'Tamper', 'Status', ''
 ]
 
 const devices = [
-    {id:0, mac:"123456", png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: true},
-    {id:1, mac:"123456", png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false, update: false},
-    {id:2, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: false},
-    {id:3, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false, update: true},
-    {id:4, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false, update: true},
-    {id:5, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
-    {id:6, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: false},    
-    {id:7, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
+    // {id:0, mac:"123456", png: "Resources/device_smoke.png", name: 'Smoke Detector', location: 'Kitchen', state: true, battery: 4, tamper: true, status: true, update: true},
+    // {id:1, mac:"123456", png: 'Resources/device_leak.png', name: 'Leak Detector', location: 'Kitchen', state: true, battery: 12, tamper: true, status: false, update: false},
+    // {id:2, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 29, tamper: true, status: false, update: false},
+    // {id:3, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: false, battery: 100, tamper: false, status: false, update: true},
+    // {id:4, mac:"123456", png: 'Resources/device_motion.png', name: 'Motion Detector', location: 'Kitchen', state: true, battery: 38, tamper: true, status: false, update: true},
+    // {id:5, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
+    // {id:6, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: false},    
+    // {id:7, mac:"123456", png: 'Resources/device_gas.png', name: 'Gas Detector', location: 'Kitchen', state: true, battery: 2, tamper: true, status: true, update: true},    
 ]
 
 function batteryItem(percent) {
@@ -75,15 +77,6 @@ function settingsItem(device_data, update_func, set_ref, disabled) {
 }
 
 function stateItem(device_data, state_change_cb, disabled) {
-    // return <div>
-    //     <Switch
-    //         checked={device_data}
-    //         onChange={(state) => {console.log("checked");}}
-    //         color="primary"
-    //         name="checkedB"
-    //         inputProps={{ 'aria-label': 'primary checkbox' }}
-    //   />
-    // </div>
     return <div>
             <div className="state-switch-cont">
                 <label class="state-switch">
@@ -118,6 +111,16 @@ class DeviceTable extends Component {
             this.refArr[id] = element;
         };
 
+        socket.subscribe("dev_read_list_resp", data => { 
+            this.setState({ dev_info : data });
+        });
+
+        socket.subscribe("dev_upd_ack", data => {
+            socket.notifyBackend("dev_read_list", {});
+        });
+
+        socket.notifyBackend("dev_read_list", {});
+
         this.showSettingsPopup = (id) => {
             this.onpopup(SettingsPopup, {
                 positionSource : this.refArr[id],
@@ -144,9 +147,9 @@ class DeviceTable extends Component {
 
         this.showRemovePopup = (id) => {
             this.onpopup(RemoveDevicePopup, {
-                remove_cb : this.removeConfirmCb,
+                // remove_cb : this.removeConfirmCb,
                 png_ref : this.state.dev_info.find(el => el.id == this.state.devId).png,
-                dev_name : this.state.dev_info.find(el => el.id == this.state.devId).name
+                dev_data : this.state.dev_info.find(el => el.id == this.state.devId)
             });
 
             this.setState({
@@ -246,8 +249,10 @@ class DeviceTable extends Component {
         }
         
         this.state_changed = (i) => {
-            console.log("state changed", i);
-            console.log(this.state.dev_info);
+            var obj = this.state.dev_info.find(el => el.id === i);
+            const mac = obj.mac;
+
+            socket.notifyBackend("dev_upd", obj);
 
             this.setState(this.state.dev_info.map(device_data => {
                 if (device_data.id === i) {
@@ -286,7 +291,7 @@ class DeviceTable extends Component {
                             </td> 
                             ) : (
                             <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
-                                <img src={process.env.PUBLIC_URL + device_data.png}></img>
+                                <img src={process.env.PUBLIC_URL + "Resources/device_" + device_data.type +".png"}></img>
                             </td>
                         )}
 

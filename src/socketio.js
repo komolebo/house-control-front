@@ -6,55 +6,72 @@ export const SENSOR_ADD = "sensor_add";
 export const DEV_ADD_SENSOR = "dev_add_sensor";
 export const DEV_NOTIFY_STATUS_DATA = 'dev_notify_status_data';
 
-// // class SocketHandler {
+function waitForSocketConnection(socket, callback){
+    setTimeout(
+        function () {
+            if (socket.readyState === 1) {
+                if (callback != null){
+                    callback();
+                }
+            } else {
+                console.log("wait for connection...")
+                waitForSocketConnection(socket, callback);
+            }
 
-// //     constructor() {
-// //         this.subscriptions = {};
-// //         this.connect();
-// //     }
+        }, 5); // wait 5 milisecond for the connection...
+}
 
-// //     connect() {
-// //         this.socket = new WebSocket('ws://192.168.1.15:8000/ws/sensor');
+class SocketHandler {
 
-// //         this.socket.onmessage = function(e) {
-// //             var data = JSON.parse(e.data);
-// //             var msg = data['message'];
-// //             var payload = data['payload'];
+    constructor() {
+        this.subscriptions = {};
+        this.connect();
+    }
 
-// //             if (msg in this.subscriptions) {
-// //                 this.subscriptions[msg].forEach(callback => {
-// //                     callback(payload);
-// //                 });
-// //             }
-            
-// //             console.log(msg, data['payload']);
-// //         }.bind(this);
+    connect() {
+        this.socket = new WebSocket('ws://192.168.50.96:8000/ws/sensors'); 
+        console.log("Websocket created");
 
-// //         this.socket.onclose = function(e) {
-// //             setTimeout(() => { 
-// //                 console.log("retry connect");
-// //                 this.connect();
-// //             }, 500);
-// //         }.bind(this);
-// //     }
+        this.socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var msg = data['message'];
+            var payload = data['payload'];
 
-// //     subscribe(msg, callback) {
-// //         if (msg in this.subscriptions) {
-// //             this.subscriptions[msg].push(callback);
-// //         }
-// //         else {
-// //             this.subscriptions[msg] = [callback];
-// //         }
-// //     }
+            if (msg in this.subscriptions) {
+                this.subscriptions[msg].forEach(callback => {
+                    callback(payload);
+                });
+            }
 
-// //     // notifyBackend(msg, data) {
-// //     //     this.socket.send(JSON.stringify({ 'message': msg, 'payload': data });
-// //     // }
-// // }
+            console.log("<<", msg, " :: ", data['payload']);
+        }.bind(this);
 
-// // var socketHandler = new SocketHandler();
+        this.socket.onclose = function(e) {
+            setTimeout(() => { 
+                console.log("retry connect");
+                this.connect();
+            }, 500);
+        }.bind(this);
+    }
 
-// export {
-//     socketHandler
-// }
+    subscribe(msg, callback) {
+        if (msg in this.subscriptions) {
+            this.subscriptions[msg].push(callback);
+        }
+        else {
+            this.subscriptions[msg] = [callback];
+        }
+    }
+
+    notifyBackend(msg, data) {
+        waitForSocketConnection(this.socket, () => {
+            console.log(">>", msg, " :: ", data);
+            this.socket.send(JSON.stringify({ 'message': msg, 'payload': data }));
+        });
+    }
+}
+
+const socket = new SocketHandler();
+
+export default socket;
 

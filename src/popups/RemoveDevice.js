@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './RemoveDevice.css';
 import './Common.css';
+import socket from '../socketio'
 
 
 class RemoveDevicePopup extends Component {
@@ -9,13 +10,17 @@ class RemoveDevicePopup extends Component {
         super(props);
 
         this.close_cb = props.close_cb;
-        this.remove_cb = props.data.remove_cb;
+        // this.remove_cb = props.data.remove_cb;
         this.png_ref = props.data.png_ref;
-        this.device_name = props.data.dev_name;
+        this.dev_data = props.data.dev_data;
 
+        socket.subscribe("dev_rem_ack", data => { socket.notifyBackend("dev_read_list", {}); });
+        
         this.onremove = () => {
+            socket.notifyBackend("dev_rem", {"mac": this.dev_data.mac});
+
             this.close_cb();
-            this.remove_cb();
+            // this.remove_cb();
         }
     }
 
@@ -36,7 +41,7 @@ class RemoveDevicePopup extends Component {
                             </div>
                         </div>
 
-                        <div className="label white center-pos">Do you want to delete Device?</div>
+                        <div className="label white center-pos">Do you want to delete {this.dev_data.name} ?</div>
                         <div className="popup-buttons-container center-pos">
                             <button className="button cancel" onClick={this.close_cb}>Cancel</button>
                             <button className="button active" onClick={this.onremove}>Remove</button> 

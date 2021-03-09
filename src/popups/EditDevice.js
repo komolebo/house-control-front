@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { DeviceSetup } from './add/AddDeviceSetup'
 import './EditDevice.css';
 import './Common.css';
+import socket from '../socketio';
 
 
 const locations = [
@@ -18,9 +19,14 @@ export default class EditDevicePopup extends Component {
         this.device_data = props.data.dev_data;
 
         console.log("edit data:", this.device_data);
-
+        
         this.state = {
             selected_id : 0,
+        }
+
+        this.oneditclick = data => {
+            socket.notifyBackend("dev_upd", this.state.input_info);
+            this.edit_device_cb();
         }
 
         this.select_cb = (id) => {
@@ -69,7 +75,7 @@ export default class EditDevicePopup extends Component {
                             <button className="button cancel" onClick={this.close_cb}>Cancel</button>
                             <button 
                                 className={"button active"}
-                                onClick={this.edit_device_cb}
+                                onClick={this.oneditclick}
                                 disabled={button_disabled}>
                                     Edit device
                             </button> 
