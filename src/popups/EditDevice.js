@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
-import { DeviceSetup } from './add/AddDeviceSetup'
+import { DeviceSetup } from './SetupDevice'
 import './EditDevice.css';
 import './Common.css';
 import socket from '../socketio';
-
-
-const locations = [
-    '-- No room --', 'Kitchen', 'Hall'
-]
 
 export default class EditDevicePopup extends Component {
 
@@ -15,36 +10,18 @@ export default class EditDevicePopup extends Component {
         super(props);
 
         this.close_cb = props.close_cb;
-        this.edit_cb = props.data.edit_cb;
         this.device_data = props.data.dev_data;
-
-        console.log("edit data:", this.device_data);
+        this.state = {};
         
-        this.state = {
-            selected_id : 0,
-        }
-
-        this.oneditclick = data => {
+        this.oneditclick = () => {
             socket.notifyBackend("dev_upd", this.state.input_info);
-            this.edit_device_cb();
-        }
-
-        this.select_cb = (id) => {
-            this.setState({
-                selected_id : id
-            })
+            this.close_cb();
         }
 
         this.set_info_cb = (dev_info) => {
             this.setState({
                 input_info : dev_info
             });
-        }
-
-        this.edit_device_cb = () => {
-            // Send here edit device request to BACK [this.state.input_info]
-            console.log(this.state.input_info);
-            this.close_cb();
         }
     }
 
@@ -68,7 +45,6 @@ export default class EditDevicePopup extends Component {
                         <DeviceSetup 
                             dev_data={this.device_data}
                             set_info_scb={info => this.set_info_cb(info)}
-                            locations={locations}
                         />
 
                         <div className="popup-buttons-container center-pos">

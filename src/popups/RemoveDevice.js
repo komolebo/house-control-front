@@ -10,17 +10,14 @@ class RemoveDevicePopup extends Component {
         super(props);
 
         this.close_cb = props.close_cb;
-        // this.remove_cb = props.data.remove_cb;
-        this.png_ref = props.data.png_ref;
         this.dev_data = props.data.dev_data;
 
-        socket.subscribe("dev_rem_ack", data => { socket.notifyBackend("dev_read_list", {}); });
+        socket.subscribe("dev_rem_ack", () => { socket.notifyBackend("dev_read_list", {}); });
         
         this.onremove = () => {
             socket.notifyBackend("dev_rem", {"mac": this.dev_data.mac});
 
             this.close_cb();
-            // this.remove_cb();
         }
     }
 
@@ -34,7 +31,7 @@ class RemoveDevicePopup extends Component {
                         </div>
                         <div className="pop-remove-top">
                             <div className='center-pos remove-ico'> 
-                                <img src={process.env.PUBLIC_URL + this.png_ref}></img>
+                                <img src={process.env.PUBLIC_URL + "Resources/device_" + this.dev_data.type + ".png"}></img>
                             </div>
                             <div className="dev-name-under-ico">
                                 {this.device_name}

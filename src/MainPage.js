@@ -12,15 +12,14 @@ class MainPage extends Component {
         this.state = {
             popup_enabled: false,
             popup : null,
-            data : null
+            popup_params : null
         }
 
-        this.showPopup = (popup, data1) => {
-            console.log("pop: ", popup);
+        this.showPopup = (popup, popup_params) => {
             this.setState({
                 popup_enabled : true,
                 popup : popup,
-                data : data1
+                popup_params : popup_params
             })
         }
 
@@ -28,7 +27,7 @@ class MainPage extends Component {
             this.setState({
                 popup_enabled : false,
                 popup : null,
-                data : null
+                popup_params : null
             })
         }
     }
@@ -76,7 +75,7 @@ class MainPage extends Component {
                     {this.state.popup_enabled ? 
                         <this.state.popup
                             close_cb={this.closePopup}
-                            data={this.state.data}
+                            data={this.state.popup_params}
                         /> : null}
                     
                     {/* {this.state.popup_enabled ? this.state.popup : null} */}

@@ -87,7 +87,6 @@ class SettingsPopup extends Component {
     }
 
     updateWindowDimensions() {
-        // console.log("width", window.innerWidth);
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 

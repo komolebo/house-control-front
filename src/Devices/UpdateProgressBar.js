@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import './UpdateProgressBar.css';
+import socket from '../socketio';
 
 class UpdateProgressBar extends Component {
 
@@ -11,6 +12,9 @@ class UpdateProgressBar extends Component {
         this.y = props.y;
         this.oncomplete = props.oncomplete;
 
+        socket.subscribe("update_dev_in_progress", (data) => { this.updateCounter(data["value"]); });
+        socket.subscribe("update_dev_complete", () => { this.oncomplete(); });
+
         this.state = {
             styles: {
                 top: this.y - 20,
@@ -20,22 +24,22 @@ class UpdateProgressBar extends Component {
             percentage: 0
         };
 
-        this.updateCounter = () => {
-            let new_percentage = this.state.percentage + 1;
-
-            if (new_percentage > 100) {
+        this.updateCounter = (percent) => {
+            percent *= 100;
+            console.log("received: ", percent);
+            if (percent > 100) {
                 clearInterval(this.interval);
                 this.oncomplete();
             }
 
             this.setState({
-                percentage: new_percentage
+                percentage: percent
             })
         }
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.updateCounter(), 200);
+        // this.interval = setInterval(() => this.updateCounter(), 200);
     }
 
     componentWillUnmount() {
@@ -47,7 +51,7 @@ class UpdateProgressBar extends Component {
             <div className="update-progress-bar-container">
                 <CircularProgressbar 
                     value={this.state.percentage}
-                    text={this.state.percentage + '%'}                    
+                    text={(this.state.percentage | 0) + '%'}                    
                 />
             </div>
         )

@@ -44,6 +44,8 @@ export class DeviceCardList extends Component {
         this.select_cb = props.select_cb;
         this.scanned_devices = props.scanned_devices;
 
+        console.log(this.scanned_devices);
+
         this.state = {
             selected : 0,
             focus_start : 0

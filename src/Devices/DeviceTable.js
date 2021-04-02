@@ -72,7 +72,7 @@ function settingsItem(device_data, update_func, set_ref, disabled) {
     return <div class={"settings-item " + (disabled ? "settings-item-disabled" : "")}
                 onClick={!disabled ? update_func : null} 
                 ref={el => set_ref(el)}> 
-        <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_' + (device_data.update ? 'active' : 'inactive') + '.png'}></img>
+        <img src={process.env.PUBLIC_URL + 'Resources/ico_settings_' + (device_data.to_update ? 'active' : 'inactive') + '.png'}></img>
     </div>
 }
 
@@ -111,33 +111,40 @@ class DeviceTable extends Component {
             this.refArr[id] = element;
         };
 
-        socket.subscribe("dev_read_list_resp", data => { 
-            this.setState({ dev_info : data });
-        });
+        socket.subscribe("dev_read_list_resp", data => {  this.setState({ dev_info : data }); });
 
-        socket.subscribe("dev_upd_ack", data => {
-            socket.notifyBackend("dev_read_list", {});
-        });
+        socket.subscribe("dev_upd_ack", () => { socket.notifyBackend("dev_read_list", {}); });
+
+        socket.subscribe("dev_add_ack", () => { socket.notifyBackend("dev_read_list", {}); });
+
+        socket.subscribe("dev_disconn", () => { socket.notifyBackend("dev_read_list", {}); });
+
+        socket.subscribe("dev_notify_data", () => { socket.notifyBackend("dev_read_list", {}); });
+
+        socket.subscribe("update_dev_ack", (data) => { this.updateConfirmCb(data["mac"]); });
+    
+        // socket.subscribe("dev_conn_resp", () => { socket.notifyBackend("dev_read_list", {}); })
 
         socket.notifyBackend("dev_read_list", {});
+
 
         this.showSettingsPopup = (id) => {
             this.onpopup(SettingsPopup, {
                 positionSource : this.refArr[id],
-                update_cb : this.state.dev_info.find(el => el.id == id).update ? this.updateReqCb : null,
+                update_cb : this.state.dev_info.find(el => el.id == id).to_update ? this.updateReqCb : null,
                 remove_cb : this.removeReqCb,
                 edit_cb : this.editReqCb
             });
 
             this.setState({
                 devId : id,
-                positionSource : this.refArr[id]
             })
         };
 
         this.showUpdatePopup = (id) => {
             this.onpopup(UpdateDevicePopup, {
                 update_cb : this.updateConfirmCb,
+                dev_data : this.state.dev_info.find(el => el.id == this.state.devId)
             });
 
             this.setState({
@@ -147,8 +154,6 @@ class DeviceTable extends Component {
 
         this.showRemovePopup = (id) => {
             this.onpopup(RemoveDevicePopup, {
-                // remove_cb : this.removeConfirmCb,
-                png_ref : this.state.dev_info.find(el => el.id == this.state.devId).png,
                 dev_data : this.state.dev_info.find(el => el.id == this.state.devId)
             });
 
@@ -208,12 +213,15 @@ class DeviceTable extends Component {
                 devId : devId_edit
             })
         };
-        this.updateConfirmCb = (i) => {
-            console.log("update started, use requested devId", this.state.devId);
-            let devId_update = this.state.devId;
+        this.updateConfirmCb = (mac) => {
+            console.log("update started, use requested mac", mac);
+
+            let dev_data = this.state.dev_info.find(el => el.mac == mac);
+
             this.setState({
                 updateInProgress : true,
-                devId : devId_update
+                devId : dev_data.id,
+                positionSource : this.refArr[dev_data.id]
             })
         };
         this.removeConfirmCb = (i) => {
@@ -263,8 +271,13 @@ class DeviceTable extends Component {
         }
     }
 
+    isItemActive(id) {
+        let update_in_progress = this.isItemUpdating(id);
+        return this.state.dev_info.find(el => el.id == id).active && !update_in_progress;
+    }
+
     isItemUpdating(id) {
-        return this.state.updateInProgress && this.state.devId == id;
+        return this.state.updateInProgress && this.state.devId == id
     }
 
     render() {
@@ -290,22 +303,22 @@ class DeviceTable extends Component {
                                 />     
                             </td> 
                             ) : (
-                            <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                            <td class={"dev-table-item dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                                 <img src={process.env.PUBLIC_URL + "Resources/device_" + device_data.type +".png"}></img>
                             </td>
                         )}
 
 
 
-                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {device_data.name}
                         </td>
 
-                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {device_data.location}
                         </td>
 
-                        <td class={"dev-table-item " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {stateItem(
                                 device_data.state, 
                                 (x) => this.state_changed(device_data.id),
@@ -313,21 +326,21 @@ class DeviceTable extends Component {
                             )}
                         </td>
 
-                        <td class={"dev-table-item " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {batteryItem(device_data.battery)}
                         </td>
 
-                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {tamperItem(device_data.tamper)}
                         </td>
 
-                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-table-item dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {statusItem(device_data.status)}
                         </td>
 
-                        <td class={"dev-tab-item-text " + (this.isItemUpdating(device_data.id) ? "diaphanous" : "")}>
+                        <td class={"dev-tab-item-text " + (this.isItemActive(device_data.id) ? "" : "diaphanous")}>
                             {settingsItem(device_data, 
-                                        e => this.showSettingsPopup(device_data.id),
+                                        () => this.showSettingsPopup(device_data.id),
                                         el => this.setRef(el, device_data.id),
                                         this.state.updateInProgress)}
                         </td>

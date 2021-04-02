@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
-import { DeviceCard } from './AddDeviceCard'
-import './AddDeviceSetup.css';
+import { DeviceCard } from './add/AddDeviceCard'
+import './SetupDevice.css';
+
+const locations = [
+    '-- No room --', 'Kitchen', 'Hall'
+]
 
 
 export class DeviceSetup extends Component {
@@ -9,15 +13,6 @@ export class DeviceSetup extends Component {
 
         this.pass_data_to_ext = props.set_info_scb;
         this.dev_data = props.dev_data;
-        this.locations = props.locations;
-
-        this.data = {
-            location : null,
-            name : null,
-            mac : null
-        }
-        
-        this.data.mac = this.dev_data.mac;
 
         this.onselectLoc = event => {
             this.dev_data.location = event.target.value;
@@ -28,7 +23,7 @@ export class DeviceSetup extends Component {
         this.oninput = event => {
             this.dev_data.name = event.target.value;
 
-            if (this.pass_data_to_ext) { this.pass_data_to_ext(this.dev_data) }
+            if (this.pass_data_to_ext) { this.pass_data_to_ext(this.dev_data); }
         }
     }
 
@@ -52,7 +47,7 @@ export class DeviceSetup extends Component {
                 <div className="add-dev-setup-item">
                     <select className="select-styled select" onChange={this.onselectLoc} selected="selected">
                         <option value="" selected disabled hidden>{this.dev_data.location}</option>
-                        {this.locations.map(location => (
+                        {locations.map(location => (
                             <option className="select1 select-styled select-options" value={location}>{location}</option>
                         ))}
                     </select> 

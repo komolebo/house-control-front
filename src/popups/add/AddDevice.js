@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import { DeviceCard } from './AddDeviceCard'
 import { DeviceCardList } from './AddDeviceCardList'
-import { DeviceSetup } from './AddDeviceSetup'
+import { DeviceSetup } from '../SetupDevice'
 import './AddDevice.css';
 import '../Common.css';
 import '../TextInputComponent.css';
 import '../SelectComponent.css';
 import socket from '../../socketio'
 
-const scan_info = [
-    {id: 0, type: "smoke", name: 'Smoke Detector', png: 'Resources/device_smoke.png', mac: 'AC0012351282'},
-    {id: 1, type: "leak", name: 'Leak Detector', png: 'Resources/device_leak.png', mac: 'F00017351282'},
-    {id: 2, type: "gas", name: 'Gas Detector', png: 'Resources/device_gas.png', mac: '7F0012331282'},
-    {id: 3, type: "gas", name: 'Gas Detector', png: 'Resources/device_gas.png', mac: '0C0012351282'},
+let scan_info = [
+    // {id: 0, type: "smoke", name: 'Smoke Detector', png: 'Resources/device_smoke.png', mac: 'AC0012351282'},
+    // {id: 1, type: "leak", name: 'Leak Detector', png: 'Resources/device_leak.png', mac: 'F00017351282'},
+    // {id: 2, type: "gas", name: 'Gas Detector', png: 'Resources/device_gas.png', mac: '7F0012331282'},
+    // {id: 3, type: "gas", name: 'Gas Detector', png: 'Resources/device_gas.png', mac: '0C0012351282'},
 ]
 
 const locations = [
@@ -23,8 +23,6 @@ export default class AddDevicePopup extends Component {
 
     constructor (props) {
         super(props);
-
-        socket.subscribe("dev_add_ack", data => { socket.notifyBackend("dev_read_list", {}); })
 
         this.close_cb = props.close_cb;
         this.add_cb = props.data.add_cb;
@@ -53,7 +51,8 @@ export default class AddDevicePopup extends Component {
         }
 
         this.add_device_cb = () => {
-            socket.notifyBackend("dev_add", this.state.input_info);
+            socket.notifyBackend("dev_conn_req", this.state.input_info);
+            // socket.notifyBackend("dev_add", this.state.input_info);
             // Send here add device request to BACK [this.state.dev_info]
             this.add_cb();
             this.close_cb();
@@ -65,10 +64,24 @@ export default class AddDevicePopup extends Component {
                 scanned : true
             })
         }
+
+        this.scan_complete = (data) => {
+            scan_info = data["data"].map(el => JSON.parse(el));
+
+            // add unique id for each scanned device
+            var id = 0;
+            scan_info.filter(el => { el.id = id++; el.name = el.type; });
+
+            this.setState({
+                scanned : true
+            })
+        }
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.debug_fake_scan_complete(), 500);
+        socket.notifyBackend("dev_scan_req", {});
+        socket.subscribe("dev_scan_resp", this.scan_complete);
+        // this.interval = setInterval(() => this.debug_fake_scan_complete(), 500);
     }
 
     componentWillUnmount() {

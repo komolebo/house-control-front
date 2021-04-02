@@ -29,7 +29,7 @@ class SocketHandler {
     }
 
     connect() {
-        this.socket = new WebSocket('ws://192.168.50.96:8000/ws/sensors'); 
+        this.socket = new WebSocket('ws://192.168.50.97:8000/ws/sensors'); 
         console.log("Websocket created");
 
         this.socket.onmessage = function(e) {
